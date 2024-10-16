@@ -94,7 +94,6 @@ function updateTimer() {
 function getTimeRemaining() {
     return isInFocusMode ? Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000)) : 0;
 }
-let isInFocusMode = false;
 let blockedSites = [];
 let focusEndTime = 0;
 let timerInterval;

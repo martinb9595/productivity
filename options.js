@@ -1,23 +1,21 @@
 // Add Chart.js to the page
 const script = document.createElement('script');
 script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-script.onload = function() {
-    // Chart.js is now loaded and can be safely used
-    console.log('Chart.js has been loaded');
-    // You can call any functions that depend on Chart.js here
+document.head.appendChild(script);
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const blockedSitesList = document.getElementById('blockedSites');
-        const newSiteInput = document.getElementById('newSite');
-        const addSiteButton = document.getElementById('addSite');
-        const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
-        const showQuotesCheckbox = document.getElementById('showQuotes');
-        const saveSettingsButton = document.getElementById('saveSettings');
-        const upgradeToPremiumButton = document.getElementById('upgradeToPremium');
-        const couponCodeInput = document.getElementById('couponCode');
-        const applyCouponButton = document.getElementById('applyCoupon');
-        const removePremiumButton = document.getElementById('removePremium');
-        const donateButton = document.getElementById('donateButton');
+document.addEventListener('DOMContentLoaded', function() {
+    const blockedSitesList = document.getElementById('blockedSites');
+    const newSiteInput = document.getElementById('newSite');
+    const addSiteButton = document.getElementById('addSite');
+    const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
+    const showQuotesCheckbox = document.getElementById('showQuotes');
+    const saveSettingsButton = document.getElementById('saveSettings');
+    const upgradeToPremiumButton = document.getElementById('upgradeToPremium');
+    const couponCodeInput = document.getElementById('couponCode');
+    const applyCouponButton = document.getElementById('applyCoupon');
+    const removePremiumButton = document.getElementById('removePremium');
+    const donateButton = document.getElementById('donateButton');
+    const timeframeSelect = document.getElementById('timeframeSelect');
 
     // Load saved settings
     chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration', 'showQuotes', 'isPremium'], function(result) {
@@ -29,6 +27,11 @@ script.onload = function() {
         }
         if (result.showQuotes !== undefined) {
             showQuotesCheckbox.checked = result.showQuotes;
+        }
+        if (result.isPremium) {
+            removePremiumButton.style.display = 'block';
+            document.getElementById('productivityAnalytics').style.display = 'block';
+            loadProductivityAnalytics();
         }
     });
 
@@ -85,7 +88,11 @@ script.onload = function() {
                 couponMessage.textContent = 'Premium subscription removed successfully.';
                 couponMessage.style.color = 'green';
                 removePremiumButton.style.display = 'none';
-                location.reload();
+                upgradeToPremiumButton.style.display = 'block';
+                document.getElementById('productivityAnalytics').style.display = 'none';
+                chrome.storage.sync.set({isPremium: false}, function() {
+                    setTimeout(() => location.reload(), 2000);
+                });
             } else {
                 couponMessage.textContent = 'Failed to remove premium subscription. Please try again.';
                 couponMessage.style.color = 'red';
@@ -97,16 +104,10 @@ script.onload = function() {
         alert('Thank you for your interest in donating! This feature is not yet implemented.');
     });
 
-    if (result.isPremium) {
-        removePremiumButton.style.display = 'block';
-        document.getElementById('productivityAnalytics').style.display = 'block';
-        loadProductivityAnalytics();
-    }
+    timeframeSelect.addEventListener('change', loadProductivityAnalytics);
 
     function loadProductivityAnalytics() {
-        const timeframeSelect = document.getElementById('timeframeSelect');
         const timeframe = timeframeSelect.value;
-
         chrome.runtime.sendMessage({action: 'getProductivityAnalytics', timeframe: timeframe}, function(response) {
             if (response.analytics) {
                 document.getElementById('focusSessionsCount').textContent = response.analytics.focusSessions;
@@ -115,10 +116,7 @@ script.onload = function() {
                 document.getElementById('currentStreak').textContent = response.analytics.streaks.currentStreak;
                 document.getElementById('longestStreak').textContent = response.analytics.streaks.longestStreak;
 
-                // Create focus time chart
                 createFocusTimeChart(response.analytics.dailyFocusTime);
-
-                // Create websites blocked chart
                 createWebsitesBlockedChart(response.analytics.websitesBlocked);
             }
 
@@ -186,22 +184,6 @@ script.onload = function() {
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // ... (existing code)
-
-        const timeframeSelect = document.getElementById('timeframeSelect');
-        timeframeSelect.addEventListener('change', loadProductivityAnalytics);
-
-        // ... (existing code)
-    });
-
-    const donateButton = document.getElementById('donateButton');
-    donateButton.addEventListener('click', function() {
-        // Implement your donation logic here
-        alert('Redirecting to donation page...');
-        // You would typically redirect to a donation service or your own donation page
-    });
-
     function addBlockedSite(site) {
         const li = document.createElement('li');
         li.textContent = site;
@@ -256,20 +238,5 @@ script.onload = function() {
         }
         newSiteInput.disabled = false;
         addSiteButton.disabled = false;
-    });
-
-    addSiteButton.addEventListener('click', function() {
-        const newSite = newSiteInput.value.trim();
-        if (newSite) {
-            chrome.storage.sync.get(['isPremium', 'freeBlockedSites'], function(result) {
-                if (!result.isPremium && (!result.freeBlockedSites || result.freeBlockedSites.length >= 3)) {
-                    alert('You have reached the maximum number of blocked sites for free users. Upgrade to Premium for unlimited blocking!');
-                } else {
-                    addBlockedSite(newSite);
-                    newSiteInput.value = '';
-                    saveBlockedSites();
-                }
-            });
-        }
     });
 });

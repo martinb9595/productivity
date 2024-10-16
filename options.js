@@ -1,7 +1,5 @@
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
 document.addEventListener('DOMContentLoaded', function() {
-    const blockedSitesList = document.getElementById('blockedSites');
+    const blockedSitesList = document.getElementById('blockedSitesList');
     const newSiteInput = document.getElementById('newSite');
     const addSiteButton = document.getElementById('addSite');
     const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
@@ -97,14 +95,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    donateButton.addEventListener('click', function() {
-        alert('Thank you for your interest in donating! This feature is not yet implemented.');
-    });
+    const donateButton = document.getElementById('donateButton');
+    if (donateButton) {
+        donateButton.addEventListener('click', function() {
+            alert('Thank you for your interest in donating! This feature is not yet implemented.');
+        });
+    }
 
-    timeframeSelect.addEventListener('change', loadProductivityAnalytics);
+    const timeframeSelect = document.getElementById('timeframeSelect');
+    if (timeframeSelect) {
+        timeframeSelect.addEventListener('change', loadProductivityAnalytics);
+    }
 
     function loadProductivityAnalytics() {
-        const timeframe = timeframeSelect.value;
+        const timeframe = timeframeSelect ? timeframeSelect.value : 'weekly';
         chrome.runtime.sendMessage({action: 'getProductivityAnalytics', timeframe: timeframe}, function(response) {
             if (response.analytics) {
                 document.getElementById('focusSessionsCount').textContent = response.analytics.focusSessions;

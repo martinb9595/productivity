@@ -42,7 +42,7 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     if (isInFocusMode && details.frameId === 0) {
         const url = new URL(details.url);
         if (blockedSites.some(site => url.hostname.includes(site))) {
-            chrome.tabs.update(details.tabId, { url: 'blocked.html' });
+            chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
         }
     }
 });

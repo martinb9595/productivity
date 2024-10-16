@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     width: 300px;
     padding: 10px;
+    background-color: #f0f0f0;
 }
 
 h1, h2, h3 {
@@ -19,24 +20,20 @@ button {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
-input[type="number"], input[type="text"] {
+button:hover {
+    background-color: #45a049;
+}
+
+input[type="number"] {
     width: 100%;
     padding: 5px;
     margin: 5px 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin: 5px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .hidden {
@@ -48,4 +45,24 @@ li {
     font-weight: bold;
     text-align: center;
     margin: 10px 0;
+    color: #4CAF50;
+}
+
+#quick-settings {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#motivation {
+    background-color: #e6f7ff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#motivationalQuote {
+    font-style: italic;
+    color: #0066cc;
 }

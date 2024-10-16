@@ -13,14 +13,15 @@
         <div id="timer" class="hidden">
             <span id="time-left"></span>
         </div>
-        <div id="settings">
-            <h2>Settings</h2>
+        <div id="quick-settings">
+            <h2>Quick Settings</h2>
             <label for="focusDuration">Focus Duration (minutes):</label>
             <input type="number" id="focusDuration" min="1" max="180" value="25">
-            <h3>Blocked Websites</h3>
-            <ul id="blockedSites"></ul>
-            <input type="text" id="newSite" placeholder="Enter website to block">
-            <button id="addSite">Add Site</button>
+            <button id="openOptions">Advanced Settings</button>
+        </div>
+        <div id="motivation" class="hidden">
+            <h3>Stay Focused!</h3>
+            <p id="motivationalQuote"></p>
         </div>
     </div>
     <script src="popup.js"></script>

@@ -33,5 +33,5 @@
       "js": ["src/js/content.js"]
     }
   ],
-  "options_page": "src/html/options.html"
+  "options_page": "src/html/settings.html"
 }

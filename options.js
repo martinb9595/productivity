@@ -1,6 +1,11 @@
 // Add Chart.js to the page
 const script = document.createElement('script');
 script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+script.onload = function() {
+    // Chart.js is now loaded and can be safely used
+    console.log('Chart.js has been loaded');
+    // You can call any functions that depend on Chart.js here
+};
 document.head.appendChild(script);
 
 script.onload = function() {

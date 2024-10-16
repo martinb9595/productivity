@@ -32,6 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
         saveSettings();
     });
 
+    const upgradeToPremiumButton = document.getElementById('upgradeToPremium');
+    upgradeToPremiumButton.addEventListener('click', function() {
+        // Implement your payment logic here
+        alert('Redirecting to payment page...');
+        // You would typically redirect to a payment processor or your own payment page
+    });
+
+    const donateButton = document.getElementById('donateButton');
+    donateButton.addEventListener('click', function() {
+        // Implement your donation logic here
+        alert('Redirecting to donation page...');
+        // You would typically redirect to a donation service or your own donation page
+    });
+
     function addBlockedSite(site) {
         const li = document.createElement('li');
         li.textContent = site;

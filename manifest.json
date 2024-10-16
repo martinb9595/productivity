@@ -8,7 +8,8 @@
     "tabs",
     "webNavigation",
     "alarms",
-    "notifications"
+    "notifications",
+    "payments"
   ],
   "host_permissions": [
     "<all_urls>"

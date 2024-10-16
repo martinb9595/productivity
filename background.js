@@ -41,9 +41,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     if (isInFocusMode && details.frameId === 0) {
         const url = new URL(details.url);
-        if (blockedSites.some(site => url.hostname.includes(site))) {
-            chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
-        }
+        chrome.storage.sync.get(['isPremium'], function(result) {
+            if (result.isPremium) {
+                // Premium users get custom blocked website lists
+                if (blockedSites.some(site => url.hostname.includes(site))) {
+                    chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
+                }
+            } else {
+                // Free users get a default list of blocked sites
+                const defaultBlockedSites = ['facebook.com', 'twitter.com', 'instagram.com'];
+                if (defaultBlockedSites.some(site => url.hostname.includes(site))) {
+                    chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
+                }
+            }
+        });
     }
 });
 

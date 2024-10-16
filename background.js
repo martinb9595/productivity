@@ -141,6 +141,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse({success: true});
         });
         return true; // Indicates that the response is sent asynchronously
+    } else if (request.action === 'getProductivityAnalytics') {
+        chrome.storage.sync.get(['productivityAnalytics'], function(result) {
+            const analytics = result.productivityAnalytics || {};
+            const mostProductiveDay = Object.entries(analytics.dailyFocusTime || {})
+                .reduce((a, b) => a[1] > b[1] ? a : b, ['N/A', 0])[0];
+            sendResponse({
+                analytics: {
+                    focusSessions: analytics.focusSessions || 0,
+                    totalFocusTime: Math.round(analytics.totalFocusTime || 0),
+                    mostProductiveDay: mostProductiveDay
+                }
+            });
+        });
+        return true; // Indicates that the response is sent asynchronously
     }
 });
 

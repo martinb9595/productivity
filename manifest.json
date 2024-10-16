@@ -19,15 +19,8 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/icon16.png",
-      "48": "images/icon48.png",
-      "128": "images/icon128.png"
+      "16": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFUlEQVR4nGNgGAUoQMnZM0/JxTNF0cUzQ9HZM0vRxbMYWQ5DgZKL5wIlF89/UM1/FV08s5AUOE9TcvH4r+Ti+V/RxfO/krPnf0UXz/9Kzp7/lZw9/ys6e/5XcvL8r+Ts+V/RxeO/krPnPwxDlJw9Fyk5e/5TdPb8p+Ts+U/R2fOfkrPnXyVnz7+Kzp5/FZ09/yo6e/5VcvL8q+Ti+VfRxeOvkovHX2QFf5ScPf8pOXv+VXT2/K3k7PlbydnzF1RsATQcZkDjLwUXz9mKLp5zlZw95yq5eM5TcvGcr+TiuUDJxXOhkrPnIkUXz8VKzp5LFJ09lyk6ey5XdPZcqejsuUrR2XO1krPnGkVnz7WKzp7rFJ091wMADrs4Xzm2P/IAAAAASUVORK5CYII="
     }
-  },
-  "icons": {
-    "16": "images/icon16.png",
-    "48": "images/icon48.png",
-    "128": "images/icon128.png"
   },
   "content_scripts": [
     {

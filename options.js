@@ -126,6 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 chrome.storage.sync.set({customBlockedSites: sites}, function() {
                     chrome.runtime.sendMessage({action: 'updateCustomBlockedSites', sites: sites});
                 });
+            } else {
+                chrome.storage.sync.set({freeBlockedSites: sites.slice(0, 3)}, function() {
+                    chrome.runtime.sendMessage({action: 'updateFreeBlockedSites', sites: sites.slice(0, 3)});
+                });
             }
         });
     }
@@ -141,22 +145,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Load custom blocked sites for premium users
-    chrome.storage.sync.get(['isPremium', 'customBlockedSites'], function(result) {
+    // Load blocked sites for both free and premium users
+    chrome.storage.sync.get(['isPremium', 'customBlockedSites', 'freeBlockedSites'], function(result) {
         if (result.isPremium) {
             if (result.customBlockedSites) {
                 result.customBlockedSites.forEach(site => addBlockedSite(site));
             }
-            newSiteInput.disabled = false;
-            addSiteButton.disabled = false;
+            document.getElementById('blockedSitesLimit').style.display = 'none';
         } else {
-            newSiteInput.disabled = true;
-            addSiteButton.disabled = true;
-            blockedSitesList.innerHTML = '<li>facebook.com</li><li>reddit.com</li><li>twitter.com</li>';
-            const premiumMessage = document.createElement('p');
-            premiumMessage.textContent = 'Upgrade to Premium to customize blocked sites.';
-            premiumMessage.style.color = 'red';
-            blockedSitesList.parentNode.insertBefore(premiumMessage, blockedSitesList);
+            if (result.freeBlockedSites) {
+                result.freeBlockedSites.forEach(site => addBlockedSite(site));
+            }
+            document.getElementById('blockedSitesLimit').style.display = 'block';
+        }
+        newSiteInput.disabled = false;
+        addSiteButton.disabled = false;
+    });
+
+    addSiteButton.addEventListener('click', function() {
+        const newSite = newSiteInput.value.trim();
+        if (newSite) {
+            chrome.storage.sync.get(['isPremium', 'freeBlockedSites'], function(result) {
+                if (!result.isPremium && (!result.freeBlockedSites || result.freeBlockedSites.length >= 3)) {
+                    alert('You have reached the maximum number of blocked sites for free users. Upgrade to Premium for unlimited blocking!');
+                } else {
+                    addBlockedSite(newSite);
+                    newSiteInput.value = '';
+                    saveBlockedSites();
+                }
+            });
         }
     });
 });

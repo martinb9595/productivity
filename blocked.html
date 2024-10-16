@@ -61,7 +61,9 @@
             return quotes[Math.floor(Math.random() * quotes.length)];
         }
 
-        document.getElementById('inspirational-quote').textContent = getRandomQuote();
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('inspirational-quote').textContent = getRandomQuote();
+        });
     </script>
 </body>
 </html>

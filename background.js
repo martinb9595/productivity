@@ -215,6 +215,7 @@ function getProductivityReport(timeframe) {
     const report = {
         focusSessions: 0,
         totalFocusTime: 0,
+        dailyFocusTime: {},
         websitesBlocked: {},
         streaks: productivityAnalytics.streaks
     };
@@ -223,6 +224,7 @@ function getProductivityReport(timeframe) {
         if (new Date(date) >= startDate) {
             report.focusSessions++;
             report.totalFocusTime += productivityAnalytics.dailyFocusTime[date];
+            report.dailyFocusTime[date] = productivityAnalytics.dailyFocusTime[date];
         }
     }
     

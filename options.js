@@ -1,4 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Add Chart.js to the page
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+document.head.appendChild(script);
+
+script.onload = function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const blockedSitesList = document.getElementById('blockedSites');
     const newSiteInput = document.getElementById('newSite');
     const addSiteButton = document.getElementById('addSite');

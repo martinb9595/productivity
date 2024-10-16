@@ -66,3 +66,20 @@ input[type="number"] {
     font-style: italic;
     color: #0066cc;
 }
+
+.chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.stats-container {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.stats-container p {
+    margin: 5px 0;
+}

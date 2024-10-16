@@ -96,11 +96,19 @@
                 <option value="monthly">Monthly</option>
                 <option value="allTime">All Time</option>
             </select>
-            <p>Focus sessions: <span id="focusSessionsCount">0</span></p>
-            <p>Total focus time: <span id="totalFocusTime">0</span> minutes</p>
-            <p>Websites blocked: <span id="websitesBlockedCount">0</span></p>
-            <p>Current streak: <span id="currentStreak">0</span> days</p>
-            <p>Longest streak: <span id="longestStreak">0</span> days</p>
+            <div class="chart-container">
+                <canvas id="focusTimeChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="websitesBlockedChart"></canvas>
+            </div>
+            <div class="stats-container">
+                <p>Focus sessions: <span id="focusSessionsCount">0</span></p>
+                <p>Total focus time: <span id="totalFocusTime">0</span> minutes</p>
+                <p>Websites blocked: <span id="websitesBlockedCount">0</span></p>
+                <p>Current streak: <span id="currentStreak">0</span> days</p>
+                <p>Longest streak: <span id="longestStreak">0</span> days</p>
+            </div>
         </div>
         <button id="upgradeToPremium">Upgrade to Premium</button>
         <div id="couponCodeSection">

@@ -2,6 +2,11 @@ let isInFocusMode = false;
 let blockedSites = [];
 let focusEndTime = 0;
 let timerInterval;
+let productivityAnalytics = {
+    focusSessions: 0,
+    totalFocusTime: 0,
+    dailyFocusTime: {},
+};
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.sync.get(['blockedSites', 'isInFocusMode'], function(result) {
@@ -91,6 +96,13 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 function startTimer(duration) {
     let timeRemaining = duration;
     updateTimer(timeRemaining);
+    
+    productivityAnalytics.focusSessions++;
+    const today = new Date().toISOString().split('T')[0];
+    productivityAnalytics.dailyFocusTime[today] = (productivityAnalytics.dailyFocusTime[today] || 0) + duration / 60;
+    productivityAnalytics.totalFocusTime += duration / 60;
+
+    chrome.storage.sync.set({ productivityAnalytics: productivityAnalytics });
     
     timerInterval = setInterval(() => {
         timeRemaining--;

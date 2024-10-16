@@ -84,8 +84,20 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get(['isPremium'], function(result) {
         if (result.isPremium) {
             removePremiumButton.style.display = 'block';
+            document.getElementById('productivityAnalytics').style.display = 'block';
+            loadProductivityAnalytics();
         }
     });
+
+    function loadProductivityAnalytics() {
+        chrome.runtime.sendMessage({action: 'getProductivityAnalytics'}, function(response) {
+            if (response.analytics) {
+                document.getElementById('focusSessionsCount').textContent = response.analytics.focusSessions;
+                document.getElementById('totalFocusTime').textContent = response.analytics.totalFocusTime;
+                document.getElementById('mostProductiveDay').textContent = response.analytics.mostProductiveDay;
+            }
+        });
+    }
 
     const donateButton = document.getElementById('donateButton');
     donateButton.addEventListener('click', function() {

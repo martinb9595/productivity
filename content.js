@@ -47,11 +47,18 @@ function updateTimerDisplay(timeRemaining) {
 }
 
 // Initial timer update when the content script loads
-chrome.runtime.sendMessage({action: 'getTimerStatus'}, (response) => {
-    if (response && response.timeRemaining) {
-        updateTimerDisplay(response.timeRemaining);
-    }
-});
+function updateTimer() {
+    chrome.runtime.sendMessage({action: 'getTimerStatus'}, (response) => {
+        if (response && response.timeRemaining !== undefined) {
+            updateTimerDisplay(response.timeRemaining);
+        }
+        // Schedule the next update
+        setTimeout(updateTimer, 1000);
+    });
+}
+
+// Start updating the timer
+updateTimer();
 
 // Check if we're in focus mode when the content script loads
 chrome.storage.sync.get(['isInFocusMode'], function(result) {

@@ -81,7 +81,7 @@ function updateTimer(timeRemaining) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'getTimerStatus') {
         const currentTime = Date.now();
-        const timeRemaining = Math.max(0, Math.floor((focusEndTime - currentTime) / 1000));
+        const timeRemaining = isInFocusMode ? Math.max(0, Math.floor((focusEndTime - currentTime) / 1000)) : 0;
         sendResponse({timeRemaining: timeRemaining});
         return true; // Indicates that the response is sent asynchronously
     }

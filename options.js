@@ -1,7 +1,4 @@
-// Add Chart.js to the page
-const script = document.createElement('script');
-script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-document.head.appendChild(script);
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 document.addEventListener('DOMContentLoaded', function() {
     const blockedSitesList = document.getElementById('blockedSites');
@@ -116,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('currentStreak').textContent = response.analytics.streaks.currentStreak;
                 document.getElementById('longestStreak').textContent = response.analytics.streaks.longestStreak;
 
-                createFocusTimeChart(response.analytics.dailyFocusTime);
-                createWebsitesBlockedChart(response.analytics.websitesBlocked);
+                displayFocusTimeData(response.analytics.dailyFocusTime);
+                displayWebsitesBlockedData(response.analytics.websitesBlocked);
             }
 
             if (!response.isPremium) {
@@ -129,59 +126,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function createFocusTimeChart(dailyFocusTime) {
-        const ctx = document.getElementById('focusTimeChart').getContext('2d');
-        const labels = Object.keys(dailyFocusTime);
-        const data = Object.values(dailyFocusTime);
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Focus Time (minutes)',
-                    data: data,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+    function displayFocusTimeData(dailyFocusTime) {
+        const container = document.getElementById('focusTimeData');
+        container.innerHTML = '<h3 class="text-lg font-semibold mb-2">Daily Focus Time</h3>';
+        const ul = document.createElement('ul');
+        ul.className = 'list-disc list-inside';
+        for (const [date, time] of Object.entries(dailyFocusTime)) {
+            const li = document.createElement('li');
+            li.textContent = `${date}: ${time} minutes`;
+            ul.appendChild(li);
+        }
+        container.appendChild(ul);
     }
 
-    function createWebsitesBlockedChart(websitesBlocked) {
-        const ctx = document.getElementById('websitesBlockedChart').getContext('2d');
-        const labels = Object.keys(websitesBlocked);
-        const data = Object.values(websitesBlocked);
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Websites Blocked',
-                    data: data,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+    function displayWebsitesBlockedData(websitesBlocked) {
+        const container = document.getElementById('websitesBlockedData');
+        container.innerHTML = '<h3 class="text-lg font-semibold mb-2">Websites Blocked</h3>';
+        const ul = document.createElement('ul');
+        ul.className = 'list-disc list-inside';
+        for (const [site, count] of Object.entries(websitesBlocked)) {
+            const li = document.createElement('li');
+            li.textContent = `${site}: ${count} times`;
+            ul.appendChild(li);
+        }
+        container.appendChild(ul);
     }
 
     function addBlockedSite(site) {

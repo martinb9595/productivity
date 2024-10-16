@@ -48,12 +48,8 @@
                     <option value="monthly">Monthly</option>
                     <option value="allTime">All Time</option>
                 </select>
-                <div class="chart-container mb-4">
-                    <canvas id="focusTimeChart"></canvas>
-                </div>
-                <div class="chart-container mb-4">
-                    <canvas id="websitesBlockedChart"></canvas>
-                </div>
+                <div id="focusTimeData" class="mb-4"></div>
+                <div id="websitesBlockedData" class="mb-4"></div>
                 <div class="bg-gray-50 p-4 rounded">
                     <p>Focus sessions: <span id="focusSessionsCount" class="font-bold">0</span></p>
                     <p>Total focus time: <span id="totalFocusTime" class="font-bold">0</span> minutes</p>

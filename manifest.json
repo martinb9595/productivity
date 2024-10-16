@@ -1,48 +1,5 @@
 {
   "manifest_version": 3,
-  "name": "Focus Mode for Productivity",
-  "version": "1.0",
-  "description": "Enhance productivity by blocking distracting websites and providing motivational content.",
-  "permissions": [
-    "storage",
-    "tabs",
-    "webNavigation",
-    "alarms",
-    "notifications",
-    "payments"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "images/icon16.png",
-      "48": "images/icon48.png",
-      "128": "images/icon128.png"
-    }
-  },
-  "icons": {
-    "16": "images/icon16.png",
-    "48": "images/icon48.png",
-    "128": "images/icon128.png"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ],
-  "options_page": "options.html"
-}
-{
-  "manifest_version": 3,
   "name": "Focus Mode",
   "version": "1.0",
   "description": "Enhance productivity by blocking distracting websites and providing a focus timer.",

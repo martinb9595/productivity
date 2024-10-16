@@ -106,6 +106,12 @@ script.onload = function() {
                 document.getElementById('websitesBlockedCount').textContent = Object.keys(response.analytics.websitesBlocked).length;
                 document.getElementById('currentStreak').textContent = response.analytics.streaks.currentStreak;
                 document.getElementById('longestStreak').textContent = response.analytics.streaks.longestStreak;
+
+                // Create focus time chart
+                createFocusTimeChart(response.analytics.dailyFocusTime);
+
+                // Create websites blocked chart
+                createWebsitesBlockedChart(response.analytics.websitesBlocked);
             }
 
             if (!response.isPremium) {
@@ -113,6 +119,61 @@ script.onload = function() {
                 timeframeSelect.disabled = true;
             } else {
                 timeframeSelect.disabled = false;
+            }
+        });
+    }
+
+    function createFocusTimeChart(dailyFocusTime) {
+        const ctx = document.getElementById('focusTimeChart').getContext('2d');
+        const labels = Object.keys(dailyFocusTime);
+        const data = Object.values(dailyFocusTime);
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Focus Time (minutes)',
+                    data: data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function createWebsitesBlockedChart(websitesBlocked) {
+        const ctx = document.getElementById('websitesBlockedChart').getContext('2d');
+        const labels = Object.keys(websitesBlocked);
+        const data = Object.values(websitesBlocked);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Websites Blocked',
+                    data: data,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
     }

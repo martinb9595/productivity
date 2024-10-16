@@ -25,3 +25,30 @@
     <script src="../js/options.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Mode Options</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Focus Mode Options</h1>
+        <div id="blockedSites">
+            <h2>Blocked Websites</h2>
+            <ul id="blockedSitesList"></ul>
+            <input type="text" id="newSite" placeholder="Enter website to block">
+            <button id="addSite">Add Site</button>
+        </div>
+        <div id="defaultSettings">
+            <h2>Default Settings</h2>
+            <label for="defaultFocusDuration">Default Focus Duration (minutes):</label>
+            <input type="number" id="defaultFocusDuration" min="1" max="180" value="25">
+        </div>
+        <button id="saveSettings">Save Settings</button>
+    </div>
+    <script src="../js/options.js"></script>
+</body>
+</html>

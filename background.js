@@ -124,6 +124,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse({valid: isValid});
         });
         return true; // Indicates that the response is sent asynchronously
+    } else if (request.action === 'removePremium') {
+        chrome.storage.sync.set({ isPremium: false }, () => {
+            sendResponse({success: true});
+        });
+        return true; // Indicates that the response is sent asynchronously
     }
 });
 

@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const couponCodeInput = document.getElementById('couponCode');
     const applyCouponButton = document.getElementById('applyCoupon');
     const couponMessage = document.getElementById('couponMessage');
+    const removePremiumButton = document.getElementById('removePremium');
 
     upgradeToPremiumButton.addEventListener('click', function() {
         // Implement your payment logic here
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.valid) {
                     couponMessage.textContent = 'Coupon applied successfully! You now have premium access.';
                     couponMessage.style.color = 'green';
+                    removePremiumButton.style.display = 'block';
                     // Refresh the page to update UI for premium features
                     location.reload();
                 } else {
@@ -60,6 +62,28 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             couponMessage.textContent = 'Please enter a coupon code.';
             couponMessage.style.color = 'red';
+        }
+    });
+
+    removePremiumButton.addEventListener('click', function() {
+        chrome.runtime.sendMessage({action: 'removePremium'}, function(response) {
+            if (response.success) {
+                couponMessage.textContent = 'Premium subscription removed successfully.';
+                couponMessage.style.color = 'green';
+                removePremiumButton.style.display = 'none';
+                // Refresh the page to update UI for non-premium features
+                location.reload();
+            } else {
+                couponMessage.textContent = 'Failed to remove premium subscription. Please try again.';
+                couponMessage.style.color = 'red';
+            }
+        });
+    });
+
+    // Check premium status on page load
+    chrome.storage.sync.get(['isPremium'], function(result) {
+        if (result.isPremium) {
+            removePremiumButton.style.display = 'block';
         }
     });
 

@@ -18,6 +18,11 @@
         </div>
     </div>
     <script src="../js/popup.js"></script>
+    <script>
+        document.getElementById('openSettings').addEventListener('click', function() {
+            chrome.runtime.openOptionsPage();
+        });
+    </script>
 </body>
 </html>
 <!DOCTYPE html>

@@ -90,14 +90,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function loadProductivityAnalytics() {
-        chrome.runtime.sendMessage({action: 'getProductivityAnalytics'}, function(response) {
+        const timeframeSelect = document.getElementById('timeframeSelect');
+        const timeframe = timeframeSelect.value;
+
+        chrome.runtime.sendMessage({action: 'getProductivityAnalytics', timeframe: timeframe}, function(response) {
             if (response.analytics) {
                 document.getElementById('focusSessionsCount').textContent = response.analytics.focusSessions;
-                document.getElementById('totalFocusTime').textContent = response.analytics.totalFocusTime;
-                document.getElementById('mostProductiveDay').textContent = response.analytics.mostProductiveDay;
+                document.getElementById('totalFocusTime').textContent = Math.round(response.analytics.totalFocusTime);
+                document.getElementById('websitesBlockedCount').textContent = Object.keys(response.analytics.websitesBlocked).length;
+                document.getElementById('currentStreak').textContent = response.analytics.streaks.currentStreak;
+                document.getElementById('longestStreak').textContent = response.analytics.streaks.longestStreak;
+            }
+
+            if (!response.isPremium) {
+                timeframeSelect.value = 'weekly';
+                timeframeSelect.disabled = true;
+            } else {
+                timeframeSelect.disabled = false;
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... (existing code)
+
+        const timeframeSelect = document.getElementById('timeframeSelect');
+        timeframeSelect.addEventListener('change', loadProductivityAnalytics);
+
+        // ... (existing code)
+    });
 
     const donateButton = document.getElementById('donateButton');
     donateButton.addEventListener('click', function() {

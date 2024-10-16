@@ -90,9 +90,17 @@
         </ul>
         <div id="productivityAnalytics" style="display: none;">
             <h3>Productivity Analytics</h3>
-            <p>Your focus sessions this week: <span id="focusSessionsCount">0</span></p>
+            <select id="timeframeSelect">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="allTime">All Time</option>
+            </select>
+            <p>Focus sessions: <span id="focusSessionsCount">0</span></p>
             <p>Total focus time: <span id="totalFocusTime">0</span> minutes</p>
-            <p>Most productive day: <span id="mostProductiveDay">N/A</span></p>
+            <p>Websites blocked: <span id="websitesBlockedCount">0</span></p>
+            <p>Current streak: <span id="currentStreak">0</span> days</p>
+            <p>Longest streak: <span id="longestStreak">0</span> days</p>
         </div>
         <button id="upgradeToPremium">Upgrade to Premium</button>
         <div id="couponCodeSection">

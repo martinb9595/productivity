@@ -6,6 +6,12 @@ let productivityAnalytics = {
     focusSessions: 0,
     totalFocusTime: 0,
     dailyFocusTime: {},
+    websitesBlocked: {},
+    streaks: {
+        currentStreak: 0,
+        longestStreak: 0,
+        lastFocusDate: null
+    }
 };
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -102,6 +108,8 @@ function startTimer(duration) {
     productivityAnalytics.dailyFocusTime[today] = (productivityAnalytics.dailyFocusTime[today] || 0) + duration / 60;
     productivityAnalytics.totalFocusTime += duration / 60;
 
+    updateStreak(today);
+
     chrome.storage.sync.set({ productivityAnalytics: productivityAnalytics });
     
     timerInterval = setInterval(() => {
@@ -142,17 +150,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
         return true; // Indicates that the response is sent asynchronously
     } else if (request.action === 'getProductivityAnalytics') {
-        chrome.storage.sync.get(['productivityAnalytics'], function(result) {
+        chrome.storage.sync.get(['productivityAnalytics', 'isPremium'], function(result) {
             const analytics = result.productivityAnalytics || {};
-            const mostProductiveDay = Object.entries(analytics.dailyFocusTime || {})
-                .reduce((a, b) => a[1] > b[1] ? a : b, ['N/A', 0])[0];
-            sendResponse({
-                analytics: {
-                    focusSessions: analytics.focusSessions || 0,
-                    totalFocusTime: Math.round(analytics.totalFocusTime || 0),
-                    mostProductiveDay: mostProductiveDay
-                }
-            });
+            const isPremium = result.isPremium || false;
+            const timeframe = isPremium ? request.timeframe : 'weekly';
+            const report = getProductivityReport(timeframe);
+            sendResponse({analytics: report, isPremium: isPremium});
         });
         return true; // Indicates that the response is sent asynchronously
     }
@@ -169,4 +172,65 @@ function endFocusMode() {
         title: 'Focus Mode Ended',
         message: 'Great job! Your focus session has ended.'
     });
+}
+
+function updateStreak(today) {
+    if (productivityAnalytics.streaks.lastFocusDate === today) {
+        return;
+    }
+    
+    const yesterday = new Date(new Date(today).setDate(new Date(today).getDate() - 1)).toISOString().split('T')[0];
+    
+    if (productivityAnalytics.streaks.lastFocusDate === yesterday) {
+        productivityAnalytics.streaks.currentStreak++;
+    } else {
+        productivityAnalytics.streaks.currentStreak = 1;
+    }
+    
+    if (productivityAnalytics.streaks.currentStreak > productivityAnalytics.streaks.longestStreak) {
+        productivityAnalytics.streaks.longestStreak = productivityAnalytics.streaks.currentStreak;
+    }
+    
+    productivityAnalytics.streaks.lastFocusDate = today;
+}
+
+function getProductivityReport(timeframe) {
+    const today = new Date();
+    let startDate;
+    
+    switch(timeframe) {
+        case 'daily':
+            startDate = new Date(today.setDate(today.getDate() - 1));
+            break;
+        case 'weekly':
+            startDate = new Date(today.setDate(today.getDate() - 7));
+            break;
+        case 'monthly':
+            startDate = new Date(today.setMonth(today.getMonth() - 1));
+            break;
+        default:
+            startDate = new Date(0); // All time
+    }
+    
+    const report = {
+        focusSessions: 0,
+        totalFocusTime: 0,
+        websitesBlocked: {},
+        streaks: productivityAnalytics.streaks
+    };
+    
+    for (let date in productivityAnalytics.dailyFocusTime) {
+        if (new Date(date) >= startDate) {
+            report.focusSessions++;
+            report.totalFocusTime += productivityAnalytics.dailyFocusTime[date];
+        }
+    }
+    
+    for (let site in productivityAnalytics.websitesBlocked) {
+        if (productivityAnalytics.websitesBlocked[site].lastBlocked >= startDate) {
+            report.websitesBlocked[site] = productivityAnalytics.websitesBlocked[site].count;
+        }
+    }
+    
+    return report;
 }

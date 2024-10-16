@@ -49,8 +49,8 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
                     chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
                 }
             } else {
-                // Free users get a default list of blocked sites
-                const defaultBlockedSites = ['facebook.com', 'twitter.com', 'instagram.com'];
+                // Free users get a predefined list of blocked sites
+                const defaultBlockedSites = ['facebook.com', 'reddit.com', 'twitter.com'];
                 if (defaultBlockedSites.some(site => url.hostname.includes(site))) {
                     chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
                 }

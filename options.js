@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const sites = Array.from(blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim());
         chrome.storage.sync.get(['isPremium'], function(result) {
             if (result.isPremium) {
-                chrome.runtime.sendMessage({action: 'updateCustomBlockedSites', sites: sites});
-            } else {
-                chrome.storage.sync.set({blockedSites: sites});
+                chrome.storage.sync.set({customBlockedSites: sites}, function() {
+                    chrome.runtime.sendMessage({action: 'updateCustomBlockedSites', sites: sites});
+                });
             }
         });
     }
@@ -83,8 +83,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load custom blocked sites for premium users
     chrome.storage.sync.get(['isPremium', 'customBlockedSites'], function(result) {
-        if (result.isPremium && result.customBlockedSites) {
-            result.customBlockedSites.forEach(site => addBlockedSite(site));
+        if (result.isPremium) {
+            if (result.customBlockedSites) {
+                result.customBlockedSites.forEach(site => addBlockedSite(site));
+            }
+            newSiteInput.disabled = false;
+            addSiteButton.disabled = false;
+        } else {
+            newSiteInput.disabled = true;
+            addSiteButton.disabled = true;
+            blockedSitesList.innerHTML = '<li>facebook.com</li><li>reddit.com</li><li>twitter.com</li>';
+            const premiumMessage = document.createElement('p');
+            premiumMessage.textContent = 'Upgrade to Premium to customize blocked sites.';
+            premiumMessage.style.color = 'red';
+            blockedSitesList.parentNode.insertBefore(premiumMessage, blockedSitesList);
         }
     });
 });

@@ -4,128 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Focus Mode Settings</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .section {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="tailwind.css">
 </head>
-<body>
-    <h1>Focus Mode Settings</h1>
-    
-    <div class="section">
-        <h2>Blocked Websites</h2>
-        <ul id="blockedSites"></ul>
-        <input type="text" id="newSite" placeholder="Enter website to block">
-        <button id="addSite">Add Site</button>
-        <p id="blockedSitesLimit" style="display: none;">You can block up to 3 sites. Upgrade to Premium for unlimited blocking!</p>
-    </div>
-    
-    <div class="section">
-        <h2>Focus Duration</h2>
-        <label for="defaultFocusDuration">Default Focus Duration (minutes):</label>
-        <input type="number" id="defaultFocusDuration" min="1" max="180" value="25">
-    </div>
-    
-    <div class="section">
-        <h2>Motivational Content</h2>
-        <label>
-            <input type="checkbox" id="showQuotes" checked>
-            Show motivational quotes
-        </label>
-    </div>
-    
-    <div class="section">
-        <h2>Premium Features</h2>
-        <p>Upgrade to Premium for advanced features:</p>
-        <ul>
-            <li>Custom blocked website lists</li>
-            <li>Detailed productivity analytics</li>
-            <li>Priority support</li>
-        </ul>
-        <div id="productivityAnalytics" style="display: none;">
-            <h3>Productivity Analytics</h3>
-            <select id="timeframeSelect">
-                <option value="daily">Daily</option>
-                <option value="weekly">Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="allTime">All Time</option>
-            </select>
-            <div class="chart-container">
-                <canvas id="focusTimeChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="websitesBlockedChart"></canvas>
-            </div>
-            <div class="stats-container">
-                <p>Focus sessions: <span id="focusSessionsCount">0</span></p>
-                <p>Total focus time: <span id="totalFocusTime">0</span> minutes</p>
-                <p>Websites blocked: <span id="websitesBlockedCount">0</span></p>
-                <p>Current streak: <span id="currentStreak">0</span> days</p>
-                <p>Longest streak: <span id="longestStreak">0</span> days</p>
-            </div>
+<body class="bg-gray-100 font-sans">
+    <div class="max-w-4xl mx-auto p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Focus Mode Settings</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Blocked Websites</h2>
+            <ul id="blockedSites" class="mb-4"></ul>
+            <input type="text" id="newSite" placeholder="Enter website to block" class="w-full p-2 border rounded mb-2">
+            <button id="addSite" class="btn">Add Site</button>
+            <p id="blockedSitesLimit" class="text-red-500 mt-2 hidden">You can block up to 3 sites. Upgrade to Premium for unlimited blocking!</p>
         </div>
-        <button id="upgradeToPremium">Upgrade to Premium</button>
-        <div id="couponCodeSection">
-            <input type="text" id="couponCode" placeholder="Enter coupon code">
-            <button id="applyCoupon">Apply Coupon</button>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Focus Duration</h2>
+            <label for="defaultFocusDuration" class="block text-sm font-medium text-gray-600 mb-1">Default Focus Duration (minutes):</label>
+            <input type="number" id="defaultFocusDuration" min="1" max="180" value="25" class="w-full p-2 border rounded">
         </div>
-        <p id="couponMessage"></p>
-        <button id="removePremium" style="display: none;">Remove Premium Subscription</button>
-    </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Motivational Content</h2>
+            <label class="flex items-center">
+                <input type="checkbox" id="showQuotes" checked class="mr-2">
+                <span class="text-gray-700">Show motivational quotes</span>
+            </label>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Premium Features</h2>
+            <p class="mb-2">Upgrade to Premium for advanced features:</p>
+            <ul class="list-disc list-inside mb-4">
+                <li>Custom blocked website lists</li>
+                <li>Detailed productivity analytics</li>
+                <li>Priority support</li>
+            </ul>
+            <div id="productivityAnalytics" class="hidden">
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Productivity Analytics</h3>
+                <select id="timeframeSelect" class="w-full p-2 border rounded mb-4">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="allTime">All Time</option>
+                </select>
+                <div class="chart-container mb-4">
+                    <canvas id="focusTimeChart"></canvas>
+                </div>
+                <div class="chart-container mb-4">
+                    <canvas id="websitesBlockedChart"></canvas>
+                </div>
+                <div class="bg-gray-50 p-4 rounded">
+                    <p>Focus sessions: <span id="focusSessionsCount" class="font-bold">0</span></p>
+                    <p>Total focus time: <span id="totalFocusTime" class="font-bold">0</span> minutes</p>
+                    <p>Websites blocked: <span id="websitesBlockedCount" class="font-bold">0</span></p>
+                    <p>Current streak: <span id="currentStreak" class="font-bold">0</span> days</p>
+                    <p>Longest streak: <span id="longestStreak" class="font-bold">0</span> days</p>
+                </div>
+            </div>
+            <button id="upgradeToPremium" class="btn mt-4">Upgrade to Premium</button>
+            <div id="couponCodeSection" class="mt-4">
+                <input type="text" id="couponCode" placeholder="Enter coupon code" class="w-full p-2 border rounded mb-2">
+                <button id="applyCoupon" class="btn">Apply Coupon</button>
+            </div>
+            <p id="couponMessage" class="mt-2"></p>
+            <button id="removePremium" class="btn bg-red-500 hover:bg-red-600 mt-4 hidden">Remove Premium Subscription</button>
+        </div>
 
-    <div class="section">
-        <h2>Support the Developer</h2>
-        <p>If you find this extension helpful, consider making a donation:</p>
-        <button id="donateButton">Make a Donation</button>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Support the Developer</h2>
+            <p class="mb-4">If you find this extension helpful, consider making a donation:</p>
+            <button id="donateButton" class="btn">Make a Donation</button>
+        </div>
+        
+        <button id="saveSettings" class="btn w-full">Save Settings</button>
     </div>
-    
-    <button id="saveSettings">Save Settings</button>
 
     <script src="options.js"></script>
 </body>

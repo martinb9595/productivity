@@ -5,17 +5,14 @@ script.onload = function() {
     // Chart.js is now loaded and can be safely used
     console.log('Chart.js has been loaded');
     // You can call any functions that depend on Chart.js here
-};
-document.head.appendChild(script);
 
-script.onload = function() {
     document.addEventListener('DOMContentLoaded', function() {
-    const blockedSitesList = document.getElementById('blockedSites');
-    const newSiteInput = document.getElementById('newSite');
-    const addSiteButton = document.getElementById('addSite');
-    const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
-    const showQuotesCheckbox = document.getElementById('showQuotes');
-    const saveSettingsButton = document.getElementById('saveSettings');
+        const blockedSitesList = document.getElementById('blockedSites');
+        const newSiteInput = document.getElementById('newSite');
+        const addSiteButton = document.getElementById('addSite');
+        const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
+        const showQuotesCheckbox = document.getElementById('showQuotes');
+        const saveSettingsButton = document.getElementById('saveSettings');
 
     // Load saved settings
     chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration', 'showQuotes'], function(result) {

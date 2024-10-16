@@ -46,7 +46,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     if (isInFocusMode && details.frameId === 0) {
         const url = new URL(details.url);
-        chrome.storage.sync.get(['isPremium', 'customBlockedSites'], function(result) {
+        chrome.storage.sync.get(['isPremium', 'customBlockedSites', 'freeBlockedSites'], function(result) {
             if (result.isPremium) {
                 // Premium users get custom blocked website lists
                 const customBlockedSites = result.customBlockedSites || [];
@@ -54,9 +54,9 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
                     chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
                 }
             } else {
-                // Free users get a predefined list of blocked sites
-                const defaultBlockedSites = ['facebook.com', 'reddit.com', 'twitter.com'];
-                if (defaultBlockedSites.some(site => url.hostname.includes(site))) {
+                // Free users get a limited custom list of blocked sites
+                const freeBlockedSites = result.freeBlockedSites || [];
+                if (freeBlockedSites.some(site => url.hostname.includes(site))) {
                     chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
                 }
             }

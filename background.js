@@ -93,6 +93,16 @@ function validateCouponCode(code) {
     });
 }
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === 'validateCoupon') {
+        validateCouponCode(request.code).then(isValid => {
+            sendResponse({valid: isValid});
+        });
+        return true; // Indicates that the response is sent asynchronously
+    }
+    // ... other message handlers
+});
+
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'focusModeEnd') {
         endFocusMode();

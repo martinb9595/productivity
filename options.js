@@ -50,21 +50,22 @@ script.onload = function() {
     const removePremiumButton = document.getElementById('removePremium');
 
     upgradeToPremiumButton.addEventListener('click', function() {
-        // Implement your payment logic here
-        alert('Redirecting to payment page...');
-        // You would typically redirect to a payment processor or your own payment page
+        // Show coupon code input and apply button
+        document.getElementById('couponCodeSection').style.display = 'block';
     });
 
     applyCouponButton.addEventListener('click', function() {
         const code = couponCodeInput.value.trim();
         if (code) {
             chrome.runtime.sendMessage({action: 'validateCoupon', code: code}, function(response) {
-                if (response.valid) {
+                if (response && response.valid) {
                     couponMessage.textContent = 'Coupon applied successfully! You now have premium access.';
                     couponMessage.style.color = 'green';
                     removePremiumButton.style.display = 'block';
+                    upgradeToPremiumButton.style.display = 'none';
+                    document.getElementById('couponCodeSection').style.display = 'none';
                     // Refresh the page to update UI for premium features
-                    location.reload();
+                    setTimeout(() => location.reload(), 2000);
                 } else {
                     couponMessage.textContent = 'Invalid coupon code. Please try again.';
                     couponMessage.style.color = 'red';

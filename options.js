@@ -13,9 +13,14 @@ script.onload = function() {
         const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
         const showQuotesCheckbox = document.getElementById('showQuotes');
         const saveSettingsButton = document.getElementById('saveSettings');
+        const upgradeToPremiumButton = document.getElementById('upgradeToPremium');
+        const couponCodeInput = document.getElementById('couponCode');
+        const applyCouponButton = document.getElementById('applyCoupon');
+        const removePremiumButton = document.getElementById('removePremium');
+        const donateButton = document.getElementById('donateButton');
 
     // Load saved settings
-    chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration', 'showQuotes'], function(result) {
+    chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration', 'showQuotes', 'isPremium'], function(result) {
         if (result.blockedSites) {
             result.blockedSites.forEach(site => addBlockedSite(site));
         }

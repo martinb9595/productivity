@@ -64,8 +64,11 @@ script.onload = function() {
                     removePremiumButton.style.display = 'block';
                     upgradeToPremiumButton.style.display = 'none';
                     document.getElementById('couponCodeSection').style.display = 'none';
-                    // Refresh the page to update UI for premium features
-                    setTimeout(() => location.reload(), 2000);
+                    // Update premium status in storage
+                    chrome.storage.sync.set({isPremium: true}, function() {
+                        // Refresh the page to update UI for premium features
+                        setTimeout(() => location.reload(), 2000);
+                    });
                 } else {
                     couponMessage.textContent = 'Invalid coupon code. Please try again.';
                     couponMessage.style.color = 'red';

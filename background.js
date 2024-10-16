@@ -99,6 +99,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse({valid: isValid});
         });
         return true; // Indicates that the response is sent asynchronously
+    } else if (request.action === 'getTimerStatus') {
+        const currentTime = Date.now();
+        const timeRemaining = isInFocusMode ? Math.max(0, Math.floor((focusEndTime - currentTime) / 1000)) : 0;
+        sendResponse({timeRemaining: timeRemaining});
+        return true;
+    } else if (request.action === 'removePremium') {
+        chrome.storage.sync.set({ isPremium: false }, () => {
+            sendResponse({success: true});
+        });
+        return true;
+    } else if (request.action === 'getProductivityAnalytics') {
+        chrome.storage.sync.get(['productivityAnalytics', 'isPremium'], function(result) {
+            const analytics = result.productivityAnalytics || {};
+            const isPremium = result.isPremium || false;
+            const timeframe = isPremium ? request.timeframe : 'weekly';
+            const report = getProductivityReport(timeframe);
+            sendResponse({analytics: report, isPremium: isPremium});
+        });
+        return true;
     }
     // ... other message handlers
 });

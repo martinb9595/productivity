@@ -81,7 +81,7 @@ function endFocusMode() {
     
     chrome.notifications.create({
         type: 'basic',
-        iconUrl: 'icon128.png',
+        iconUrl: 'default_icon.png',
         title: 'Focus Mode Ended',
         message: 'Great job! Your focus session has ended.'
     });

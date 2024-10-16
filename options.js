@@ -61,7 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function saveBlockedSites() {
         const sites = Array.from(blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim());
-        chrome.storage.sync.set({blockedSites: sites});
+        chrome.storage.sync.get(['isPremium'], function(result) {
+            if (result.isPremium) {
+                chrome.runtime.sendMessage({action: 'updateCustomBlockedSites', sites: sites});
+            } else {
+                chrome.storage.sync.set({blockedSites: sites});
+            }
+        });
     }
 
     function saveSettings() {
@@ -70,7 +76,15 @@ document.addEventListener('DOMContentLoaded', function() {
             showQuotes: showQuotesCheckbox.checked
         };
         chrome.storage.sync.set(settings, function() {
+            saveBlockedSites();
             alert('Settings saved successfully!');
         });
     }
+
+    // Load custom blocked sites for premium users
+    chrome.storage.sync.get(['isPremium', 'customBlockedSites'], function(result) {
+        if (result.isPremium && result.customBlockedSites) {
+            result.customBlockedSites.forEach(site => addBlockedSite(site));
+        }
+    });
 });

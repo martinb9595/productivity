@@ -41,10 +41,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     if (isInFocusMode && details.frameId === 0) {
         const url = new URL(details.url);
-        chrome.storage.sync.get(['isPremium'], function(result) {
+        chrome.storage.sync.get(['isPremium', 'customBlockedSites'], function(result) {
             if (result.isPremium) {
                 // Premium users get custom blocked website lists
-                if (blockedSites.some(site => url.hostname.includes(site))) {
+                const customBlockedSites = result.customBlockedSites || [];
+                if (customBlockedSites.some(site => url.hostname.includes(site))) {
                     chrome.tabs.update(details.tabId, { url: chrome.runtime.getURL('blocked.html') });
                 }
             } else {
@@ -57,6 +58,11 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
         });
     }
 });
+
+// Function to update custom blocked sites list
+function updateCustomBlockedSites(sites) {
+    chrome.storage.sync.set({ customBlockedSites: sites });
+}
 
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'focusModeEnd') {

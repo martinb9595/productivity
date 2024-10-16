@@ -29,12 +29,27 @@ function disableSocialMediaFeed() {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'updateTimer') {
-        const timerElement = document.getElementById('focus-timer');
-        if (timerElement) {
-            const minutes = Math.floor(request.timeRemaining / 60);
-            const seconds = request.timeRemaining % 60;
+        updateTimerDisplay(request.timeRemaining);
+    }
+});
+
+function updateTimerDisplay(timeRemaining) {
+    const timerElement = document.getElementById('focus-timer');
+    if (timerElement) {
+        if (timeRemaining > 0) {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
             timerElement.textContent = `Time remaining in focus mode: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        } else {
+            timerElement.textContent = 'Focus mode ended';
         }
+    }
+}
+
+// Initial timer update when the content script loads
+chrome.runtime.sendMessage({action: 'getTimerStatus'}, (response) => {
+    if (response && response.timeRemaining) {
+        updateTimerDisplay(response.timeRemaining);
     }
 });
 

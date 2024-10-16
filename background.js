@@ -68,11 +68,24 @@ function startTimer(duration) {
 }
 
 function updateTimer(timeRemaining) {
-    chrome.runtime.sendMessage({
-        action: 'updateTimer',
-        timeRemaining: timeRemaining
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        if (tabs[0]) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: 'updateTimer',
+                timeRemaining: timeRemaining
+            });
+        }
     });
 }
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === 'getTimerStatus') {
+        const currentTime = Date.now();
+        const timeRemaining = Math.max(0, Math.floor((focusEndTime - currentTime) / 1000));
+        sendResponse({timeRemaining: timeRemaining});
+        return true; // Indicates that the response is sent asynchronously
+    }
+});
 
 function endFocusMode() {
     isInFocusMode = false;

@@ -8,64 +8,27 @@ import {
   updateCustomBlockedSites,
 } from "./background/premium.js";
 
-const isInFocusMode = false;
-let blockedSites = [];
-const focusEndTime = 0;
-let timerInterval;
-let productivityAnalytics = {
-  focusSessions: 0,
-  totalFocusTime: 0,
-  dailyFocusTime: {},
-  websitesBlocked: {},
-  streaks: {
-    currentStreak: 0,
-    longestStreak: 0,
-    lastFocusDate: null,
-  },
-};
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.get(["blockedSites", "isInFocusMode"], function (result) {
-    if (result.blockedSites) {
-      blockedSites = result.blockedSites;
-    }
-    if (result.isInFocusMode) {
-      isInFocusMode = result.isInFocusMode;
-    }
-  });
-});
+let isInFocusMode = false;
+let isInFocusMode = false;
 
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === "sync") {
-    if (changes.blockedSites) {
-      blockedSites = changes.blockedSites.newValue;
-    }
-    if (changes.isInFocusMode) {
-      isInFocusMode = changes.isInFocusMode.newValue;
-    }
-  }
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.sync.get(["isInFocusMode"], function (result) {
+    isInFocusMode = result.isInFocusMode || false;
+  });
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startFocusMode") {
-    isInFocusMode = true;
-    focusEndTime = Date.now() + request.duration * 1000;
-    chrome.alarms.create("focusModeEnd", { when: focusEndTime });
-    startTimer(request.duration);
+    startFocusMode(request.duration);
   } else if (request.action === "endFocusMode") {
-    isInFocusMode = false;
-    chrome.alarms.clear("focusModeEnd");
-    clearInterval(timerInterval);
+    endFocusMode();
   } else if (request.action === "validateCoupon") {
     validateCouponCode(request.code).then((isValid) => {
       sendResponse({ valid: isValid });
     });
     return true; // Indicates that the response is sent asynchronously
   } else if (request.action === "getTimerStatus") {
-    const currentTime = Date.now();
-    const timeRemaining = isInFocusMode
-      ? Math.max(0, Math.floor((focusEndTime - currentTime) / 1000))
-      : 0;
-    sendResponse({ timeRemaining: timeRemaining });
+    sendResponse({ timeRemaining: getTimeRemaining() });
     return true; // Indicates that the response is sent asynchronously
   } else if (request.action === "removePremium") {
     chrome.storage.sync.set({ isPremium: false }, () => {
@@ -92,30 +55,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     endFocusMode();
   }
 });
-
-function startTimer(duration) {
-  let timeRemaining = duration;
-  updateTimer(timeRemaining);
-
-  productivityAnalytics.focusSessions++;
-  const today = new Date().toISOString().split("T")[0];
-  productivityAnalytics.dailyFocusTime[today] =
-    (productivityAnalytics.dailyFocusTime[today] || 0) + duration / 60;
-  productivityAnalytics.totalFocusTime += duration / 60;
-
-  updateStreak(today);
-
-  chrome.storage.sync.set({ productivityAnalytics: productivityAnalytics });
-
-  timerInterval = setInterval(() => {
-    timeRemaining--;
-    updateTimer(timeRemaining);
-
-    if (timeRemaining <= 0) {
-      clearInterval(timerInterval);
-    }
-  }, 1000);
-}
 // Background script for the Focus Mode extension
 
 let isInFocusMode = false;
@@ -329,6 +268,7 @@ function startTimer(duration) {
 
     if (timeRemaining <= 0) {
       clearInterval(timerInterval);
+      endFocusMode();
     }
   }, 1000);
 }

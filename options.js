@@ -30,24 +30,21 @@ script.onload = function() {
     addSiteButton.addEventListener('click', function() {
         const newSite = newSiteInput.value.trim();
         if (newSite) {
-            addBlockedSite(newSite);
-            newSiteInput.value = '';
-            saveBlockedSites();
+            chrome.storage.sync.get(['isPremium', 'freeBlockedSites'], function(result) {
+                if (!result.isPremium && (!result.freeBlockedSites || result.freeBlockedSites.length >= 3)) {
+                    alert('You have reached the maximum number of blocked sites for free users. Upgrade to Premium for unlimited blocking!');
+                } else {
+                    addBlockedSite(newSite);
+                    newSiteInput.value = '';
+                    saveBlockedSites();
+                }
+            });
         }
     });
 
-    saveSettingsButton.addEventListener('click', function() {
-        saveSettings();
-    });
-
-    const upgradeToPremiumButton = document.getElementById('upgradeToPremium');
-    const couponCodeInput = document.getElementById('couponCode');
-    const applyCouponButton = document.getElementById('applyCoupon');
-    const couponMessage = document.getElementById('couponMessage');
-    const removePremiumButton = document.getElementById('removePremium');
+    saveSettingsButton.addEventListener('click', saveSettings);
 
     upgradeToPremiumButton.addEventListener('click', function() {
-        // Show coupon code input and apply button
         document.getElementById('couponCodeSection').style.display = 'block';
     });
 
@@ -55,15 +52,14 @@ script.onload = function() {
         const code = couponCodeInput.value.trim();
         if (code) {
             chrome.runtime.sendMessage({action: 'validateCoupon', code: code}, function(response) {
+                const couponMessage = document.getElementById('couponMessage');
                 if (response && response.valid) {
                     couponMessage.textContent = 'Coupon applied successfully! You now have premium access.';
                     couponMessage.style.color = 'green';
                     removePremiumButton.style.display = 'block';
                     upgradeToPremiumButton.style.display = 'none';
                     document.getElementById('couponCodeSection').style.display = 'none';
-                    // Update premium status in storage
                     chrome.storage.sync.set({isPremium: true}, function() {
-                        // Refresh the page to update UI for premium features
                         setTimeout(() => location.reload(), 2000);
                     });
                 } else {
@@ -79,11 +75,11 @@ script.onload = function() {
 
     removePremiumButton.addEventListener('click', function() {
         chrome.runtime.sendMessage({action: 'removePremium'}, function(response) {
+            const couponMessage = document.getElementById('couponMessage');
             if (response.success) {
                 couponMessage.textContent = 'Premium subscription removed successfully.';
                 couponMessage.style.color = 'green';
                 removePremiumButton.style.display = 'none';
-                // Refresh the page to update UI for non-premium features
                 location.reload();
             } else {
                 couponMessage.textContent = 'Failed to remove premium subscription. Please try again.';
@@ -92,14 +88,15 @@ script.onload = function() {
         });
     });
 
-    // Check premium status on page load
-    chrome.storage.sync.get(['isPremium'], function(result) {
-        if (result.isPremium) {
-            removePremiumButton.style.display = 'block';
-            document.getElementById('productivityAnalytics').style.display = 'block';
-            loadProductivityAnalytics();
-        }
+    donateButton.addEventListener('click', function() {
+        alert('Thank you for your interest in donating! This feature is not yet implemented.');
     });
+
+    if (result.isPremium) {
+        removePremiumButton.style.display = 'block';
+        document.getElementById('productivityAnalytics').style.display = 'block';
+        loadProductivityAnalytics();
+    }
 
     function loadProductivityAnalytics() {
         const timeframeSelect = document.getElementById('timeframeSelect');

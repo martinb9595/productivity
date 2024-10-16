@@ -64,6 +64,24 @@ function updateCustomBlockedSites(sites) {
     chrome.storage.sync.set({ customBlockedSites: sites });
 }
 
+// Admin premium code
+const ADMIN_PREMIUM_CODE = '0888215426';
+
+// Function to validate coupon code
+function validateCouponCode(code) {
+    return new Promise((resolve) => {
+        if (code === ADMIN_PREMIUM_CODE) {
+            chrome.storage.sync.set({ isPremium: true }, () => {
+                resolve(true);
+            });
+        } else {
+            // Here you would typically check the code against a database or API
+            // For now, we'll just reject any code that's not the admin code
+            resolve(false);
+        }
+    });
+}
+
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'focusModeEnd') {
         endFocusMode();
@@ -100,6 +118,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const currentTime = Date.now();
         const timeRemaining = isInFocusMode ? Math.max(0, Math.floor((focusEndTime - currentTime) / 1000)) : 0;
         sendResponse({timeRemaining: timeRemaining});
+        return true; // Indicates that the response is sent asynchronously
+    } else if (request.action === 'validateCoupon') {
+        validateCouponCode(request.code).then(isValid => {
+            sendResponse({valid: isValid});
+        });
         return true; // Indicates that the response is sent asynchronously
     }
 });

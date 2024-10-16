@@ -33,10 +33,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const upgradeToPremiumButton = document.getElementById('upgradeToPremium');
+    const couponCodeInput = document.getElementById('couponCode');
+    const applyCouponButton = document.getElementById('applyCoupon');
+    const couponMessage = document.getElementById('couponMessage');
+
     upgradeToPremiumButton.addEventListener('click', function() {
         // Implement your payment logic here
         alert('Redirecting to payment page...');
         // You would typically redirect to a payment processor or your own payment page
+    });
+
+    applyCouponButton.addEventListener('click', function() {
+        const code = couponCodeInput.value.trim();
+        if (code) {
+            chrome.runtime.sendMessage({action: 'validateCoupon', code: code}, function(response) {
+                if (response.valid) {
+                    couponMessage.textContent = 'Coupon applied successfully! You now have premium access.';
+                    couponMessage.style.color = 'green';
+                    // Refresh the page to update UI for premium features
+                    location.reload();
+                } else {
+                    couponMessage.textContent = 'Invalid coupon code. Please try again.';
+                    couponMessage.style.color = 'red';
+                }
+            });
+        } else {
+            couponMessage.textContent = 'Please enter a coupon code.';
+            couponMessage.style.color = 'red';
+        }
     });
 
     const donateButton = document.getElementById('donateButton');

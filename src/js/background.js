@@ -3,11 +3,14 @@
 import { startFocusMode, endFocusMode } from "./background/focusMode.js";
 import { updateTimer, getTimeRemaining } from "./background/timer.js";
 import { updateStreak, getProductivityReport } from "./background/analytics.js";
-import { validateCouponCode, updateCustomBlockedSites } from "./background/premium.js";
+import {
+  validateCouponCode,
+  updateCustomBlockedSites,
+} from "./background/premium.js";
 
-let isInFocusMode = false;
+const isInFocusMode = false;
 let blockedSites = [];
-let focusEndTime = 0;
+const focusEndTime = 0;
 let timerInterval;
 let productivityAnalytics = {
   focusSessions: 0,
@@ -20,7 +23,6 @@ let productivityAnalytics = {
     lastFocusDate: null,
   },
 };
-
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(["blockedSites", "isInFocusMode"], function (result) {
     if (result.blockedSites) {

@@ -1,13 +1,12 @@
 // Background script for the Focus Mode extension
 
-import { startFocusMode, endFocusMode } from './background/focusMode.js';
-import { updateTimer, getTimeRemaining } from './background/timer.js';
+import { startFocusMode, endFocusMode } from "./background/focusMode.js";
+import { updateTimer, getTimeRemaining } from "./background/timer.js";
 // Background script for the Focus Mode extension
 
 let isInFocusMode = false;
-let focusEndTime = 0;
-let timerInterval;
-
+// focusEndTime is already declared in the imported module
+// timerInterval is already declared in the imported module
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(["isInFocusMode"], function (result) {
     isInFocusMode = result.isInFocusMode || false;

@@ -55,6 +55,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     endFocusMode();
   }
 });
+
 // Background script for the Focus Mode extension
 
 let isInFocusMode = false;
@@ -75,6 +76,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse({ timeRemaining: getTimeRemaining() });
   }
 });
+
 let blockedSites = [];
 let focusEndTime = 0;
 let timerInterval;

@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.storage.local.get(["isInFocusMode", "focusEndTime"], ({ isInFocusMode, focusEndTime }) => {
             if (isInFocusMode && focusEndTime) {
                 const timeLeft = Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000));
+                const timeRemainingElement = document.getElementById('timeRemaining');
+                if (timeRemainingElement) {
+                    timeRemainingElement.textContent = formatTimeRemaining(timeLeft);
+                }
                 focusStatus.textContent = timeLeft > 0 
                     ? `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}` 
                     : "Focus mode ended.";

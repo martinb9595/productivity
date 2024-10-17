@@ -1,4 +1,4 @@
-import { startTimerUpdate, formatTimeRemaining } from './utils/timerUtils.js';
+import { startTimerUpdate, formatTimeRemaining } from '../utils/timerUtils.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const focusStatus = document.getElementById('focusStatus');

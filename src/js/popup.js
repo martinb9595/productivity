@@ -1,4 +1,4 @@
-import { startTimerUpdate, formatTimeRemaining } from './utils/timerUtils.js';
+import { startTimerUpdate, formatTimeRemaining } from '../utils/timerUtils.js';
 
 // Popup script for the Focus Mode extension
 

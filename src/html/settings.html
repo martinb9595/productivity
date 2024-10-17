@@ -6,25 +6,27 @@
     <title>Focus Mode Options</title>
     <link rel="stylesheet" href="../css/main.css" />
   </head>
-  <body>
-    <main class="container">
-      <h1 class="text-2xl font-bold">Focus Mode Options</h1>
+  <body class="bg-gray-100 flex justify-center items-center h-screen">
+    <main class="container bg-white rounded-lg shadow-lg p-8">
+      <h1 class="text-3xl font-bold text-center mb-6">Focus Mode Options</h1>
       <div id="blockedSites">
         <h2 class="text-xl font-semibold">Blocked Websites</h2>
-        <ul id="blockedSitesList" class="list-disc pl-5"></ul>
-        <input type="text" id="newSite" placeholder="Enter website to block" aria-label="Enter website to block" />
-        <button id="addSite" aria-label="Add site to block list">Add Site</button>
+        <ul id="blockedSitesList" class="list-disc pl-5 mb-4"></ul>
+        <input type="text" id="newSite" placeholder="Enter website to block" aria-label="Enter website to block" class="border border-gray-300 rounded-lg p-2 mb-4 w-full" />
+        <button id="addSite" class="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Add Site</button>
       </div>
-      <div id="defaultSettings">
+      <div id="defaultSettings" class="mt-4">
         <h2 class="text-xl font-semibold">Default Settings</h2>
         <label for="defaultFocusDuration" class="block">Default Focus Duration (minutes):</label>
-        <input type="number" id="defaultFocusDuration" min="1" max="180" value="25" />
+        <input type="number" id="defaultFocusDuration" min="1" max="180" value="25" class="border border-gray-300 rounded-lg p-2 mb-4 w-full" />
       </div>
-      <div id="focusStatus" role="status" aria-live="polite">
+      <div id="focusStatus" role="status" aria-live="polite" class="mt-4 text-center">
         <p id="focusModeStatus">Focus Mode is not running. Time left: <span id="timeRemaining">00:00</span></p>
       </div>
-      <button id="saveSettings" aria-label="Save settings">Save Settings</button>
-      <button id="stopFocusMode" aria-label="Stop focus mode">Stop Focus Mode</button>
+      <div class="space-y-4">
+        <button id="saveSettings" class="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Save Settings</button>
+        <button id="stopFocusMode" class="bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">Stop Focus Mode</button>
+      </div>
     </main>
 
     <script type="module" src="../js/settings.js"></script>

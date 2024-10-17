@@ -22,7 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const timerElement = document.getElementById("focusStatus");
-    startTimerUpdate(1000, timerElement);
+
+    // Listen for timer updates from the background script
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.action === "updateTimer") {
+            const minutes = Math.floor(request.timeRemaining / 60);
+            const seconds = request.timeRemaining % 60;
+            timerElement.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timerElement.classList.remove("text-red-500");
+            timerElement.classList.add("text-green-500");
+        }
+    });
+
+    // Request the current timer status when the popup loads
+    chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
+        if (response && response.timeRemaining !== undefined) {
+            const minutes = Math.floor(response.timeRemaining / 60);
+            const seconds = response.timeRemaining % 60;
+            timerElement.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            timerElement.classList.remove("text-red-500");
+            timerElement.classList.add("text-green-500");
+        }
+    });
     if (openSettingsButton) {
         openSettingsButton.addEventListener('click', function () {
             chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });

@@ -94,6 +94,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
     });
     sendResponse({ success: true });
+  } else if (request.action === "getTimerStatus") {
+    // Respond with the current timer status
+    const timeLeft = isInFocusMode ? Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000)) : 0;
+    sendResponse({ timeRemaining: timeLeft });
   } else {
     sendResponse({ success: false, message: "Unknown action" });
   }

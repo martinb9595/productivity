@@ -5,3 +5,7 @@
 document.getElementById('openSettings').addEventListener('click', function() {
     chrome.runtime.openOptionsPage();
 });
+
+document.getElementById('openOptions').addEventListener('click', function() {
+    chrome.runtime.openOptionsPage();
+});

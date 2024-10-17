@@ -82,7 +82,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
-  if (isInFocusMode && details.frameId === 0) {
+  if (isInFocusMode && Date.now() < focusEndTime && details.frameId === 0) {
     const url = new URL(details.url);
     if (blockedSites.some((site) => url.hostname.includes(site))) {
       chrome.tabs.update(details.tabId, {

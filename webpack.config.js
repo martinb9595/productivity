@@ -2,7 +2,11 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/js/background.js',
+  entry: {
+    background: './src/js/background.js',
+    popup: './src/js/popup.js',
+    content: './src/js/content.js'
+  },
   output: {
     filename: 'background.bundle.js',
     path: path.resolve(__dirname, 'dist/js'),

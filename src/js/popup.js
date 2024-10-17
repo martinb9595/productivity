@@ -9,12 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateFocusStatus() {
         chrome.runtime.sendMessage({ action: "getTimerStatus" }, ({ timeRemaining }) => {
             if (timeRemaining !== undefined) {
-                focusStatus.textContent = timeRemaining > 0 
-                    ? `Focus mode is running... Time left: ${formatTimeRemaining(timeRemaining)}` 
-                    : "Focus mode is not running.";
-                focusStatus.classList.toggle("text-green-500", timeRemaining > 0);
-                focusStatus.classList.toggle("text-red-500", timeRemaining <= 0);
-                focusStatus.style.display = "block";
+                const focusModeStatusElement = document.getElementById('focusModeStatus');
+                const timeRemainingElement = document.getElementById('timeRemaining');
+                if (focusModeStatusElement && timeRemainingElement) {
+                    focusModeStatusElement.textContent = timeRemaining > 0 
+                        ? `Focus mode is running... Time left: ${formatTimeRemaining(timeRemaining)}` 
+                        : "Focus mode is not running.";
+                    timeRemainingElement.textContent = formatTimeRemaining(timeRemaining);
+                    focusStatus.classList.toggle("text-green-500", timeRemaining > 0);
+                    focusStatus.classList.toggle("text-red-500", timeRemaining <= 0);
+                    focusStatus.style.display = "block";
+                }
             } else {
                 focusStatus.textContent = "Focus mode is not running.";
                 focusStatus.classList.remove("text-green-500");

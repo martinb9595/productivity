@@ -67,14 +67,14 @@ main {
   justify-content: center;
   width: 24rem;
   height: 24rem;
-  background: linear-gradient(to right, #f7fafc, #edf2f7);
+  background: linear-gradient(to right, #e2e8f0, #edf2f7);
   padding: 2rem;
 }
 
 h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #1a202c;
+  color: #2d3748;
   margin-bottom: 2rem;
 }
 
@@ -88,8 +88,20 @@ button {
   transition: background-color 0.3s ease-in-out;
 }
 
-button:hover {
-  background-color: #4c51bf;
+button.bg-blue-500 {
+  background-color: #4299e1; /* Updated blue */
+}
+
+button.bg-blue-500:hover {
+  background-color: #3182ce; /* Darker blue on hover */
+}
+
+button.bg-green-500 {
+  background-color: #48bb78; /* Updated green */
+}
+
+button.bg-green-500:hover {
+  background-color: #38a169; /* Darker green on hover */
 }
 
 input {

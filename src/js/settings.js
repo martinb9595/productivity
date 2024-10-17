@@ -1,17 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     const focusStatus = document.getElementById('focusStatus');
-    chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
-        if (result.isInFocusMode && result.focusEndTime) {
-            const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-            focusStatus.classList.remove("text-red-500");
-            focusStatus.classList.add("text-green-500");
-        } else {
-            focusStatus.textContent = "Focus mode is not running.";
-        }
-    });
+    function updateFocusStatus() {
+        chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
+            if (result.isInFocusMode && result.focusEndTime) {
+                const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                focusStatus.classList.remove("text-red-500");
+                focusStatus.classList.add("text-green-500");
+            } else {
+                focusStatus.textContent = "Focus mode is not running.";
+            }
+        });
+    }
+
+    // Update the focus status every second
+    setInterval(updateFocusStatus, 1000);
+    updateFocusStatus(); // Initial call to set the status immediately
 
     // Sync settings
     const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');

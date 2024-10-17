@@ -21,7 +21,7 @@ const Blocked = () => {
         setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
         const timerElement = document.getElementById('focus-timer');
         startTimerUpdate(1000, timerElement);
-    }, []);
+    }, [quotes]);
 
     const startTimerUpdate = (interval) => {
         const update = () => {

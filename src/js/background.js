@@ -1,12 +1,12 @@
 // Background script for the Focus Mode extension
 
-import { startFocusMode, endFocusMode } from "./background/focusMode.js";
-import { updateTimer, getTimeRemaining } from "./background/timer.js";
-import { updateStreak, getProductivityReport } from "./background/analytics.js";
-import {
+const { startFocusMode, endFocusMode } = require("./background/focusMode.js");
+const { updateTimer, getTimeRemaining } = require("./background/timer.js");
+const { updateStreak, getProductivityReport } = require("./background/analytics.js");
+const {
   validateCouponCode,
   updateCustomBlockedSites,
-} from "./background/premium.js";
+} = require("./background/premium.js");
 
 
 chrome.runtime.onInstalled.addListener(() => {

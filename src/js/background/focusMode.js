@@ -3,7 +3,9 @@ function startFocusMode(duration) {
 }
 
 function endFocusMode() {
-  // Implementation for ending focus mode
+  chrome.storage.local.set({ isInFocusMode: false, focusEndTime: 0 }, () => {
+    console.log("Focus mode ended and state cleared from storage.");
+  });
 }
 
 module.exports = { startFocusMode, endFocusMode };

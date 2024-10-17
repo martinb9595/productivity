@@ -35,9 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addBlockedSite(site) {
         const li = document.createElement('li');
-        li.textContent = site;
+        li.textContent = site + ' ';
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
+        removeButton.className = 'ml-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600';
         removeButton.addEventListener('click', function() {
             li.remove();
             saveBlockedSites();

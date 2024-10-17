@@ -74,14 +74,20 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
             const minutes = Math.floor(response.timeRemaining / 60);
             const seconds = response.timeRemaining % 60;
-            document.getElementById('timeRemaining').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            if (response.timeRemaining > 0) {
-                document.getElementById('focusModeStatus').textContent = `Focus Mode is running... Time left: ${document.getElementById('timeRemaining').textContent}`;
-            } else {
-                document.getElementById('focusModeStatus').textContent = 'Focus Mode is not running. Time left: 00:00';
+            const timeRemainingElement = document.getElementById('timeRemaining');
+            const focusModeStatusElement = document.getElementById('focusModeStatus');
+            if (timeRemainingElement && focusModeStatusElement) {
+                timeRemainingElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                if (response.timeRemaining > 0) {
+                    focusModeStatusElement.textContent = `Focus Mode is running... Time left: ${timeRemainingElement.textContent}`;
+                } else {
+                    focusModeStatusElement.textContent = 'Focus Mode is not running. Time left: 00:00';
+                }
             }
         });
     }
 
-    setInterval(updateFocusModeStatus, 1000);
+    document.addEventListener('DOMContentLoaded', function() {
+        setInterval(updateFocusModeStatus, 1000);
+    });
 });

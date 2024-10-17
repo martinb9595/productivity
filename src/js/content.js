@@ -158,19 +158,21 @@ document.addEventListener("DOMContentLoaded", () => {
 updateTimer();
 
 // Check if we're in focus mode when the content script loads
-chrome.storage.sync.get(["isInFocusMode"], function (result) {
-  if (result.isInFocusMode) {
-    disableSocialMediaFeed();
-  }
-});
-
-// Listen for changes in focus mode status
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === "sync" && changes.isInFocusMode) {
-    if (changes.isInFocusMode.newValue) {
+if (chrome.storage && chrome.storage.sync) {
+  chrome.storage.sync.get(["isInFocusMode"], function (result) {
+    if (result.isInFocusMode) {
       disableSocialMediaFeed();
-    } else {
-      location.reload(); // Reload the page when focus mode ends
     }
-  }
-});
+  });
+
+  // Listen for changes in focus mode status
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === "sync" && changes.isInFocusMode) {
+      if (changes.isInFocusMode.newValue) {
+        disableSocialMediaFeed();
+      } else {
+        location.reload(); // Reload the page when focus mode ends
+      }
+    }
+  });
+}

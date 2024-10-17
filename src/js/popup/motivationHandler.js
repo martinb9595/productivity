@@ -3,11 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const motivationalQuote = document.getElementById('motivationalQuote');
 
     function updateMotivationalQuote() {
-        // For now, we'll use a static quote. In the future, this could be fetched from an API or a list of quotes.
         motivationalQuote.textContent = "Stay focused and keep pushing forward!";
     }
 
-    // Listen for messages from background script
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'updateTimer') {
             updateTimer(request.timeRemaining);

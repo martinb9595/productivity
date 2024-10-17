@@ -23,7 +23,6 @@ if (chrome.storage && chrome.storage.sync) {
     }
   });
 
-  // Listen for changes in focus mode status
   chrome.storage.onChanged.addListener((changes, namespace) => {
     if (namespace === "sync" && changes.isInFocusMode) {
       if (changes.isInFocusMode.newValue) {

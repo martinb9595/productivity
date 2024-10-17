@@ -1,7 +1,5 @@
 // Options script for the Focus Mode extension
 
-// Options script for the Focus Mode extension
-
 document.addEventListener('DOMContentLoaded', function() {
     const elements = {
         blockedSitesList: document.getElementById('blockedSitesList'),
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
         saveSettingsButton: document.getElementById('saveSettings')
     };
 
-    // Load saved settings
     chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration'], function(result) {
         if (result.blockedSites) {
             result.blockedSites.forEach(site => addBlockedSite(site));

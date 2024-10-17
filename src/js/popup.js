@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Listen for timer updates from the background script
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === "updateTimer") {
             const minutes = Math.floor(request.timeRemaining / 60);
@@ -34,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Update the timer every second
     updateFocusStatus(); // Initial call to set the status immediately
     setInterval(updateFocusStatus, 1000);
 

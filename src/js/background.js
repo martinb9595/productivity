@@ -15,6 +15,7 @@ self.addEventListener("activate", (event) => {
 });
 
 let blockedSites = [];
+let isInFocusMode = false;
 let focusEndTime = 0;
 let timerInterval;
 let productivityAnalytics = {

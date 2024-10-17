@@ -5,29 +5,23 @@ import { startTimerUpdate, formatTimeRemaining } from './utils/timerUtils.js';
 document.addEventListener("DOMContentLoaded", () => {
     const focusStatus = document.getElementById("focusStatus");
     const openSettingsButton = document.getElementById("openSettings");
+    const toggleFocusButton = document.getElementById("toggleFocus");
+    const timerElement = document.getElementById("focusModeStatus");
+    const timeRemainingElement = document.getElementById("timeRemaining");
 
     function updateFocusStatus() {
         chrome.runtime.sendMessage({ action: "getTimerStatus" }, ({ timeRemaining }) => {
-            const focusModeStatusElement = document.getElementById('focusModeStatus');
-            const timeRemainingElement = document.getElementById('timeRemaining');
-            if (focusModeStatusElement && timeRemainingElement) {
-                focusModeStatusElement.textContent = timeRemaining > 0 
+            if (timeRemainingElement && timerElement) {
+                timerElement.textContent = timeRemaining > 0 
                     ? `Focus mode is running... Time left: ${formatTimeRemaining(timeRemaining)}` 
                     : "Focus mode is not running.";
                 timeRemainingElement.textContent = formatTimeRemaining(timeRemaining);
                 focusStatus.classList.toggle("text-green-500", timeRemaining > 0);
                 focusStatus.classList.toggle("text-red-500", timeRemaining <= 0);
                 focusStatus.style.display = "block";
-            } else {
-                focusStatus.textContent = "Focus mode is not running.";
-                focusStatus.classList.remove("text-green-500");
-                focusStatus.classList.add("text-red-500");
-                focusStatus.style.display = "block";
             }
         });
     }
-
-    const timerElement = document.getElementById("focusStatus");
 
     // Listen for timer updates from the background script
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -40,36 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function updateTimer() {
-        chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
-            if (response && response.timeRemaining !== undefined) {
-                const minutes = Math.floor(response.timeRemaining / 60);
-                const seconds = response.timeRemaining % 60;
-                timerElement.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                timerElement.classList.remove("text-red-500");
-                timerElement.classList.add("text-green-500");
-            } else {
-                timerElement.textContent = "Focus mode is not running.";
-                timerElement.classList.remove("text-green-500");
-                timerElement.classList.add("text-red-500");
-            }
-        });
-    }
-
     // Update the timer every second
-    updateTimer(); // Initial call to set the status immediately
-    setInterval(updateTimer, 1000);
+    updateFocusStatus(); // Initial call to set the status immediately
+    setInterval(updateFocusStatus, 1000);
+
     if (openSettingsButton) {
         openSettingsButton.addEventListener('click', function () {
             chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });
         });
     }
 
-    const toggleFocusButton = document.getElementById("toggleFocus");
     if (toggleFocusButton) {
         toggleFocusButton.addEventListener("click", () => {
             const focusDurationInput = document.getElementById("focusDuration");
-            const focusStatus = document.getElementById("focusStatus");
             const focusDuration = parseInt(focusDurationInput.value, 10);
 
             if (isNaN(focusDuration) || focusDuration <= 0) {

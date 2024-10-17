@@ -65,6 +65,7 @@ if (typeof chrome !== 'undefined' && chrome.alarms && chrome.alarms.onAlarm) {
   console.error("chrome.alarms.onAlarm is not available in this context.");
 }
 
+let isInFocusMode = false;
 let blockedSites = [];
 let focusEndTime = 0;
 let timerInterval;

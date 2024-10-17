@@ -21,3 +21,12 @@ document.getElementById('openSettingsButton').addEventListener('click', function
 document.getElementById('openSettingsHtml').addEventListener('click', function() {
     chrome.runtime.openOptionsPage();
 });
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleFocusButton = document.getElementById("toggleFocus");
+    toggleFocusButton.addEventListener("click", () => {
+        chrome.storage.sync.set({ isInFocusMode: true }, () => {
+            console.log("Focus mode started");
+            // Optionally, you can update the UI to reflect the focus mode state
+        });
+    });
+});

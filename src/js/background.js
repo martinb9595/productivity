@@ -58,15 +58,19 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startFocusMode") {
     chrome.storage.local.set({ isInFocusMode: true }, () => {
-      focusEndTime = Date.now() + request.duration * 1000;
+      focusEndTime = Date.now() + request.duration * 60 * 1000; // Convert minutes to milliseconds
       chrome.alarms.create("focusModeEnd", { when: focusEndTime });
-      startTimer(request.duration);
+      startTimer(request.duration * 60); // Convert minutes to seconds
+      sendResponse({ success: true });
     });
+    return true; // Indicate that the response will be sent asynchronously
   } else if (request.action === "endFocusMode") {
     chrome.storage.local.set({ isInFocusMode: false }, () => {
       chrome.alarms.clear("focusModeEnd");
       clearInterval(timerInterval);
+      sendResponse({ success: true });
     });
+    return true; // Indicate that the response will be sent asynchronously
   }
 });
 

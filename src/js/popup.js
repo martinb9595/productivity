@@ -1,9 +1,8 @@
-// Popup script for the Focus Mode extension
 
 // Popup script for the Focus Mode extension
 
 document.addEventListener("DOMContentLoaded", () => {
-    const openSettingsButton = document.getElementById('openSettings');
+    const openSettingsButton = document.getElementById("openSettings");
     if (openSettingsButton) {
         openSettingsButton.addEventListener('click', function() {
             chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });

@@ -3,8 +3,15 @@
 import { startFocusMode, endFocusMode } from "./background/focusMode.js";
 import { updateTimer, getTimeRemaining } from "./background/timer.js";
 import { updateStreak, getProductivityReport } from "./background/analytics.js";
-// Removed duplicate declaration of validateCouponCode
 import { updateCustomBlockedSites } from "./background/premium.js";
+
+self.addEventListener('install', (event) => {
+  console.log('Service worker installed');
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('Service worker activated');
+});
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(["isInFocusMode"], function (result) {

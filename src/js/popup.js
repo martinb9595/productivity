@@ -15,6 +15,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
                 focusStatus.classList.remove("text-red-500");
                 focusStatus.classList.add("text-green-500");
+                if (timeLeft > 0) {
+                    focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    focusStatus.classList.remove("text-red-500");
+                    focusStatus.classList.add("text-green-500");
+                } else {
+                    focusStatus.textContent = "Focus mode ended.";
+                    focusStatus.classList.remove("text-green-500");
+                    focusStatus.classList.add("text-red-500");
+                }
             } else {
                 focusStatus.textContent = "";
             }

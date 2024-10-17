@@ -12,13 +12,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleFocusButton = document.getElementById("toggleFocus");
     if (toggleFocusButton) {
         toggleFocusButton.addEventListener("click", () => {
-            const focusDuration = parseInt(document.getElementById("focusDuration").value, 10) || 25;
+            const focusDurationInput = document.getElementById("focusDuration");
+            const focusStatus = document.getElementById("focusStatus");
+            const focusDuration = parseInt(focusDurationInput.value, 10);
+
+            if (isNaN(focusDuration) || focusDuration <= 0) {
+                focusStatus.textContent = "Please enter a valid focus duration.";
+                return;
+            }
+
             chrome.runtime.sendMessage({ action: "startFocusMode", duration: focusDuration }, (response) => {
                 if (response && response.success) {
                     console.log("Focus mode started");
-                    // Optionally, update the UI to reflect the focus mode state
+                    focusStatus.textContent = "Focus mode is running...";
+                    focusStatus.classList.remove("text-red-500");
+                    focusStatus.classList.add("text-green-500");
                 } else {
                     console.error("Failed to start focus mode");
+                    focusStatus.textContent = "Failed to start focus mode.";
                 }
             });
         });

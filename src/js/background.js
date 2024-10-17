@@ -69,6 +69,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       chrome.alarms.create("focusModeEnd", { when: focusEndTime });
       startTimer(request.duration * 60); // Convert minutes to seconds
       sendResponse({ success: true });
+      sendResponse({ success: true });
     });
     return true; // Indicate that the response will be sent asynchronously
   } else if (request.action === "endFocusMode") {
@@ -78,6 +79,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ success: true });
     });
     return true; // Indicate that the response will be sent asynchronously
+  } else {
+    sendResponse({ success: false, message: "Unknown action" });
   }
 });
 

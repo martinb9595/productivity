@@ -5,18 +5,6 @@
 document.getElementById('openSettings').addEventListener('click', function() {
     chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });
 });
-
-document.getElementById('openSettingsPage').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
-});
-
-document.getElementById('openSettingsButton').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
-});
-
-document.getElementById('openSettingsHtml').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
-});
 document.addEventListener("DOMContentLoaded", () => {
     const toggleFocusButton = document.getElementById("toggleFocus");
     if (toggleFocusButton) {

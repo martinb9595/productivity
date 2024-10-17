@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/tailwind.css" />
   </head>
   <body>
-    <div class="container space-y-4 p-8 max-w-xl mx-auto">
+    <main class="container space-y-4 p-8 max-w-xl mx-auto">
       <h1 class="text-2xl font-bold">Focus Mode Options</h1>
       <div id="blockedSites" class="space-y-2">
         <h2 class="text-xl font-semibold">Blocked Websites</h2>
@@ -17,11 +17,11 @@
           id="newSite"
           placeholder="Enter website to block"
           class="border rounded p-2 w-full"
-        />
+        aria-label="Enter website to block" />
         <button
           id="addSite"
           class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
+        aria-label="Add site to block list">
           Add Site
         </button>
       </div>
@@ -39,20 +39,17 @@
           class="border rounded p-2 w-full"
         />
       </div>
-      <button
-        id="saveSettings"
-        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
-      >
+        aria-label="Save settings">
         Save Settings
       </button>
       <button
         id="stopFocusMode"
         class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-      >
+        aria-label="Stop focus mode">
         Stop Focus Mode
       </button>
-      <div id="focusStatus" class="mt-4 text-center text-red-500"></div>
-    </div>
+      <div id="focusStatus" class="mt-4 text-center text-red-500" role="status" aria-live="polite"></div>
+    </main>
 
     <!-- Add the type="module" attribute to the script tags -->
     <script type="module" src="../js/settings.js"></script>

@@ -7,13 +7,13 @@ function updateTimerDisplay(timeRemaining, timerElement) {
 }
 
 function startTimerUpdate(interval, timerElement) {
-    function update() {
+    const update = () => {
         chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
             if (response && response.timeRemaining !== undefined) {
                 updateTimerDisplay(response.timeRemaining, timerElement);
             }
         });
-    }
+    };
     update();
     return setInterval(update, interval);
 }

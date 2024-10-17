@@ -7,7 +7,7 @@ document.getElementById('openSettings').addEventListener('click', function() {
 });
 
 document.getElementById('openOptions').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
+    window.location.href = chrome.runtime.getURL("src/html/settings.html");
 });
 
 document.getElementById('openSettingsPage').addEventListener('click', function() {

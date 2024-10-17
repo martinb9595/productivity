@@ -135,10 +135,6 @@ h2 {
   height: 100vh;
 }
 
-.bg-white {
-  background-color: #eaf0f5; /* Updated white */
-}
-
 .rounded-lg {
   border-radius: 0.5rem;
 }

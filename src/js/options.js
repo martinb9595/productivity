@@ -52,8 +52,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function saveSettings() {
+        const defaultFocusDuration = parseInt(defaultFocusDurationInput.value, 10);
+        if (isNaN(defaultFocusDuration) || defaultFocusDuration <= 0) {
+            alert('Please enter a valid focus duration.');
+            return;
+        }
+
         const settings = {
-            defaultFocusDuration: defaultFocusDurationInput.value,
+            defaultFocusDuration: defaultFocusDuration,
             blockedSites: Array.from(blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim())
         };
         chrome.storage.sync.set(settings, function() {

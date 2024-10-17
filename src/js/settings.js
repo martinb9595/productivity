@@ -4,18 +4,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const focusStatus = document.getElementById('focusStatus');
     function updateFocusStatus() {
         chrome.storage.local.get(["isInFocusMode", "focusEndTime"], ({ isInFocusMode, focusEndTime }) => {
-            if (isInFocusMode && focusEndTime) {
-                const timeLeft = Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000));
-                const timeRemainingElement = document.getElementById('timeRemaining');
-                const focusModeStatusElement = document.getElementById('focusModeStatus');
-                if (timeRemainingElement && focusModeStatusElement) {
-                    timeRemainingElement.textContent = formatTimeRemaining(timeLeft);
-                    focusModeStatusElement.textContent = timeLeft > 0 
-                        ? `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}` 
-                        : "Focus mode ended.";
-                    focusStatus.classList.toggle("text-green-500", timeLeft > 0);
-                    focusStatus.classList.toggle("text-red-500", timeLeft <= 0);
-                }
+            const timeLeft = isInFocusMode && focusEndTime ? Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000)) : 0;
+            const timeRemainingElement = document.getElementById('timeRemaining');
+            const focusModeStatusElement = document.getElementById('focusModeStatus');
+            if (timeRemainingElement && focusModeStatusElement) {
+                timeRemainingElement.textContent = formatTimeRemaining(timeLeft);
+                focusModeStatusElement.textContent = timeLeft > 0 
+                    ? `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}` 
+                    : "Focus mode is not running.";
+                focusStatus.classList.toggle("text-green-500", timeLeft > 0);
+                focusStatus.classList.toggle("text-red-500", timeLeft <= 0);
             } else {
                 focusStatus.textContent = "Focus mode is not running.";
                 focusStatus.classList.remove("text-green-500");

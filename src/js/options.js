@@ -19,7 +19,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         chrome.storage.sync.set({ defaultFocusDuration: defaultFocusDurationInput.value }, function() {
             chrome.runtime.sendMessage({ action: "updateDefaultFocusDuration", duration: defaultFocusDurationInput.value });
+            // Start focus mode with the saved duration
+            chrome.runtime.sendMessage({ action: "startFocusMode", duration: defaultFocusDuration }, (response) => {
+                if (response && response.success) {
+                    console.log("Focus mode started from settings");
+                } else {
+                    console.error("Failed to start focus mode from settings");
+                }
+            });
         });
+
+        // Update the popup immediately
+        chrome.runtime.sendMessage({ action: "updatePopup" });
     });
 
     addSiteButton.addEventListener('click', function () {

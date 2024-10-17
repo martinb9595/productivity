@@ -3,7 +3,7 @@
 import { startFocusMode, endFocusMode } from "./background/focusMode.js";
 import { updateTimer, getTimeRemaining } from "./background/timer.js";
 import { updateStreak, getProductivityReport } from "./background/analytics.js";
-import { validateCouponCode } from "./background/premium.js"; // Ensure this is imported if used
+import { updateCustomBlockedSites } from "./background/premium.js";
 
 self.addEventListener("install", (event) => {
   console.log("Service worker installed");
@@ -13,68 +13,35 @@ self.addEventListener("activate", (event) => {
   console.log("Service worker activated");
 });
 
-let isInFocusMode = false;
-let blockedSites = [];
-let focusEndTime = 0;
-let timerInterval;
-let productivityAnalytics = {
-  focusSessions: 0,
-  totalFocusTime: 0,
-  dailyFocusTime: {},
-  websitesBlocked: {},
-  streaks: {
-    currentStreak: 0,
-    longestStreak: 0,
-    lastFocusDate: null,
-  },
-};
-
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.get(["blockedSites", "isInFocusMode"], function (result) {
-    blockedSites = result.blockedSites || [];
-    isInFocusMode = result.isInFocusMode || false;
+  chrome.storage.local.get(["isInFocusMode"], function (result) {
+    let isInFocusMode = result.isInFocusMode || false;
+    // Initialize other state variables if needed
   });
-});
-
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === "sync") {
-    if (changes.blockedSites) {
-      blockedSites = changes.blockedSites.newValue;
-    }
-    if (changes.isInFocusMode) {
-      isInFocusMode = changes.isInFocusMode.newValue;
-    }
-  }
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startFocusMode") {
-    isInFocusMode = true;
-    focusEndTime = Date.now() + request.duration * 1000;
-    chrome.alarms.create("focusModeEnd", { when: focusEndTime });
-    startTimer(request.duration);
-    sendResponse({ success: true });
+    startFocusMode(request.duration);
   } else if (request.action === "endFocusMode") {
     endFocusMode();
-    sendResponse({ success: true });
   } else if (request.action === "validateCoupon") {
     validateCouponCode(request.code).then((isValid) => {
       sendResponse({ valid: isValid });
     });
     return true; // Indicates that the response is sent asynchronously
   } else if (request.action === "getTimerStatus") {
-    const currentTime = Date.now();
-    const timeRemaining = isInFocusMode
-      ? Math.max(0, Math.floor((focusEndTime - currentTime) / 1000))
-      : 0;
-    sendResponse({ timeRemaining });
+    getTimeRemaining((timeRemaining) => {
+      sendResponse({ timeRemaining });
+    });
+    return true; // Indicates that the response is sent asynchronously
   } else if (request.action === "removePremium") {
-    chrome.storage.sync.set({ isPremium: false }, () => {
+    chrome.storage.local.set({ isPremium: false }, () => {
       sendResponse({ success: true });
     });
     return true; // Indicates that the response is sent asynchronously
   } else if (request.action === "getProductivityAnalytics") {
-    chrome.storage.sync.get(
+    chrome.storage.local.get(
       ["productivityAnalytics", "isPremium"],
       function (result) {
         const analytics = result.productivityAnalytics || {};
@@ -94,6 +61,87 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
+let blockedSites = [];
+let focusEndTime = 0;
+let timerInterval;
+let productivityAnalytics = {
+  focusSessions: 0,
+  totalFocusTime: 0,
+  dailyFocusTime: {},
+  websitesBlocked: {},
+  streaks: {
+    currentStreak: 0,
+    longestStreak: 0,
+    lastFocusDate: null,
+  },
+};
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.get(
+    ["blockedSites", "isInFocusMode"],
+    function (result) {
+      if (result.blockedSites) {
+        blockedSites = result.blockedSites;
+      }
+      if (result.isInFocusMode) {
+        isInFocusMode = result.isInFocusMode;
+      }
+    }
+  );
+});
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === "local") {
+    if (changes.blockedSites) {
+      blockedSites = changes.blockedSites.newValue;
+    }
+    if (changes.isInFocusMode) {
+      isInFocusMode = changes.isInFocusMode.newValue;
+    }
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "startFocusMode") {
+    chrome.storage.local.set({ isInFocusMode: true }, () => {
+      focusEndTime = Date.now() + request.duration * 1000;
+      chrome.alarms.create("focusModeEnd", { when: focusEndTime });
+      startTimer(request.duration);
+    });
+  } else if (request.action === "endFocusMode") {
+    chrome.storage.local.set({ isInFocusMode: false }, () => {
+      chrome.alarms.clear("focusModeEnd");
+      clearInterval(timerInterval);
+    });
+  }
+});
+
+chrome.webNavigation.onBeforeNavigate.addListener((details) => {
+  if (isInFocusMode && details.frameId === 0) {
+    const url = new URL(details.url);
+    chrome.storage.local.get(
+      ["isPremium", "customBlockedSites", "freeBlockedSites"],
+      function (result) {
+        if (result.isPremium) {
+          const customBlockedSites = result.customBlockedSites || [];
+          if (customBlockedSites.some((site) => url.hostname.includes(site))) {
+            chrome.tabs.update(details.tabId, {
+              url: chrome.runtime.getURL("blocked.html"),
+            });
+          }
+        } else {
+          const freeBlockedSites = result.freeBlockedSites || [];
+          if (freeBlockedSites.some((site) => url.hostname.includes(site))) {
+            chrome.tabs.update(details.tabId, {
+              url: chrome.runtime.getURL("blocked.html"),
+            });
+          }
+        }
+      }
+    );
+  }
+});
+
 function startTimer(duration) {
   let timeRemaining = duration;
   updateTimer(timeRemaining);
@@ -105,7 +153,8 @@ function startTimer(duration) {
   productivityAnalytics.totalFocusTime += duration / 60;
 
   updateStreak(today);
-  chrome.storage.sync.set({ productivityAnalytics });
+
+  chrome.storage.local.set({ productivityAnalytics: productivityAnalytics });
 
   timerInterval = setInterval(() => {
     timeRemaining--;
@@ -117,22 +166,3 @@ function startTimer(duration) {
     }
   }, 1000);
 }
-
-chrome.webNavigation.onBeforeNavigate.addListener((details) => {
-  if (isInFocusMode && details.frameId === 0) {
-    const url = new URL(details.url);
-    chrome.storage.sync.get(
-      ["isPremium", "customBlockedSites", "freeBlockedSites"],
-      function (result) {
-        const customBlockedSites = result.isPremium
-          ? result.customBlockedSites || []
-          : result.freeBlockedSites || [];
-        if (customBlockedSites.some((site) => url.hostname.includes(site))) {
-          chrome.tabs.update(details.tabId, {
-            url: chrome.runtime.getURL("blocked.html"),
-          });
-        }
-      }
-    );
-  }
-});

@@ -14,9 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     : "Focus mode is not running.";
                 focusStatus.classList.toggle("text-green-500", timeRemaining > 0);
                 focusStatus.classList.toggle("text-red-500", timeRemaining <= 0);
-                focusStatus.style.display = timeRemaining > 0 ? "block" : "none";
+                focusStatus.style.display = "block";
             } else {
-                focusStatus.style.display = "none";
+                focusStatus.textContent = "Focus mode is not running.";
+                focusStatus.classList.remove("text-green-500");
+                focusStatus.classList.add("text-red-500");
+                focusStatus.style.display = "block";
             }
         });
     }

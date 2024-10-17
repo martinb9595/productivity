@@ -64,11 +64,17 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startFocusMode") {
+    const durationInMilliseconds = request.duration * 60 * 1000;
+    if (isNaN(durationInMilliseconds) || durationInMilliseconds <= 0) {
+      console.error("Invalid focus duration");
+      sendResponse({ success: false, message: "Invalid focus duration" });
+      return;
+    }
+
     chrome.storage.local.set({ isInFocusMode: true }, () => {
-      focusEndTime = Date.now() + request.duration * 60 * 1000; // Convert minutes to milliseconds
+      focusEndTime = Date.now() + durationInMilliseconds;
       chrome.alarms.create("focusModeEnd", { when: focusEndTime });
       startTimer(request.duration * 60); // Convert minutes to seconds
-      sendResponse({ success: true });
       sendResponse({ success: true });
     });
     return true; // Indicate that the response will be sent asynchronously

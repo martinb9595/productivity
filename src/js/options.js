@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.runtime.sendMessage({ action: "startFocusMode", duration: defaultFocusDurationInput.value }, (response) => {
                 if (response && response.success) {
                     console.log("Focus mode started from settings");
+                    // Notify the background script to update the popup
+                    chrome.runtime.sendMessage({ action: "updatePopup" });
                 } else {
                     console.error("Failed to start focus mode from settings");
                 }

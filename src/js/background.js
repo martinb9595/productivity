@@ -85,6 +85,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ success: true });
     });
     return true; // Indicate that the response will be sent asynchronously
+  } else if (request.action === "updatePopup") {
+    // Send the current focus status to the popup
+    chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
+      if (result.isInFocusMode && result.focusEndTime) {
+        const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
+        chrome.runtime.sendMessage({ action: "updateTimer", timeRemaining: timeLeft });
+      }
+    });
+    sendResponse({ success: true });
   } else {
     sendResponse({ success: false, message: "Unknown action" });
   }

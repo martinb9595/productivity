@@ -78,11 +78,13 @@ chrome.storage.sync.get(["isInFocusMode"], function (result) {
   }
 });
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (document.readyState === "complete" && request.action === "updateTimer") {
-    updateTimerDisplay(request.timeRemaining);
-  }
-});
+if (chrome.runtime && chrome.runtime.onMessage) {
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (document.readyState === "complete" && request.action === "updateTimer") {
+      updateTimerDisplay(request.timeRemaining);
+    }
+  });
+}
 
 function updateTimerDisplay(timeRemaining) {
   const timerElement = document.getElementById("focus-timer");

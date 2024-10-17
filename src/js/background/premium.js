@@ -1,4 +1,3 @@
-const ADMIN_PREMIUM_CODE = "0888215426";
 
 
 function updateStreak(today) {

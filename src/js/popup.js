@@ -46,15 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 timerElement.classList.remove("text-red-500");
                 timerElement.classList.add("text-green-500");
             } else {
-                if (timeLeft > 0) {
-                    timerElement.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                    timerElement.classList.remove("text-red-500");
-                    timerElement.classList.add("text-green-500");
-                } else {
-                    timerElement.textContent = "Focus mode is not running.";
-                    timerElement.classList.remove("text-green-500");
-                    timerElement.classList.add("text-red-500");
-                }
+                timerElement.textContent = "Focus mode is not running.";
+                timerElement.classList.remove("text-green-500");
+                timerElement.classList.add("text-red-500");
             }
         });
     }

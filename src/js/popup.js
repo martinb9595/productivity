@@ -3,10 +3,6 @@
 // Popup script for the Focus Mode extension
 
 document.getElementById('openSettings').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
-});
-
-document.getElementById('openSettings').addEventListener('click', function() {
     window.location.href = chrome.runtime.getURL("src/html/settings.html");
 });
 

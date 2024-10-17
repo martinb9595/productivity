@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
 
-function App() {
-  const [message, setMessage] = useState('Welcome to My React App!');
+const App = () => {
+    const [name, setName] = useState('');
 
-  const handleChangeMessage = () => {
-    setMessage('You clicked the button!');
-  };
+    const handleChange = (event) => {
+        setName(event.target.value);
+    };
 
-  return (
-    <div className="App">
-      <h1>{message}</h1>
-      <button onClick={handleChangeMessage}>Click Me</button>
-    </div>
-  );
-}
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        alert(`Hey ${name}`);
+    };
+
+    return (
+        <div>
+            <h1>Greeting App</h1>
+            <form onSubmit={handleSubmit}>
+                <input 
+                    type="text" 
+                    value={name} 
+                    onChange={handleChange} 
+                    placeholder="Enter your name" 
+                />
+                <button type="submit">Greet</button>
+            </form>
+        </div>
+    );
+};
 
 export default App;

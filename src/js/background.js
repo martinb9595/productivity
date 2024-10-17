@@ -8,8 +8,6 @@ import {
   updateCustomBlockedSites,
 } from "./background/premium.js";
 
-let isInFocusMode = false;
-let isInFocusMode = false;
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(["isInFocusMode"], function (result) {

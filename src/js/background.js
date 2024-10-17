@@ -71,8 +71,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return;
     }
 
-    chrome.storage.local.set({ isInFocusMode: true }, () => {
-      focusEndTime = Date.now() + durationInMilliseconds;
+    focusEndTime = Date.now() + durationInMilliseconds;
+    chrome.storage.local.set({ isInFocusMode: true, focusEndTime: focusEndTime }, () => {
       chrome.alarms.create("focusModeEnd", { when: focusEndTime });
       startTimer(request.duration * 60); // Convert minutes to seconds
       sendResponse({ success: true });

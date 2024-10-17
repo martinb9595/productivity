@@ -78,34 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             chrome.runtime.sendMessage({ action: "startFocusMode", duration: focusDuration }, (response) => {
-                chrome.storage.local.set({ isInFocusMode: true, focusEndTime: Date.now() + focusDuration * 60 * 1000 });
                 if (response && response.success) {
                     console.log("Focus mode started");
                     chrome.storage.local.set({ isInFocusMode: true, focusEndTime: Date.now() + focusDuration * 60 * 1000 }, () => {
                         updateFocusStatus(); // Update the status immediately
                     });
-                    let timeLeft = focusDuration * 60; // Convert minutes to seconds
-
-                    const timerInterval = setInterval(() => {
-                        timeLeft--;
-                        if (timeLeft > 0) {
-                            focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
-                            focusStatus.classList.remove("text-red-500");
-                            focusStatus.classList.add("text-green-500");
-                        } else {
-                            focusStatus.textContent = "Focus mode ended.";
-                            focusStatus.classList.remove("text-green-500");
-                            focusStatus.classList.add("text-red-500");
-                        }
-
-                        if (timeLeft <= 0) {
-                            clearInterval(timerInterval);
-                            focusStatus.textContent = "Focus mode ended.";
-                            chrome.storage.local.set({ isInFocusMode: false });
-                        }
-                    }, 1000);
-                    focusStatus.classList.remove("text-red-500");
-                    focusStatus.classList.add("text-green-500");
                 } else {
                     console.error("Failed to start focus mode");
                     focusStatus.textContent = "Failed to start focus mode.";

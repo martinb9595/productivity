@@ -150,23 +150,6 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
 });
 
 
-// Admin premium code
-const ADMIN_PREMIUM_CODE = "0888215426";
-
-// Function to validate coupon code
-function validateCouponCode(code) {
-  return new Promise((resolve) => {
-    if (code === ADMIN_PREMIUM_CODE) {
-      chrome.storage.sync.set({ isPremium: true }, () => {
-        resolve(true);
-      });
-    } else {
-      // Here you would typically check the code against a database or API
-      // For now, we'll just reject any code that's not the admin code
-      resolve(false);
-    }
-  });
-}
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "validateCoupon") {

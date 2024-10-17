@@ -31,7 +31,7 @@ let productivityAnalytics = {
 };
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(
+  chrome.storage.sync.get(
     ["blockedSites", "isInFocusMode"],
     function (result) {
       if (result.blockedSites) {
@@ -77,26 +77,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
   if (isInFocusMode && details.frameId === 0) {
     const url = new URL(details.url);
-    chrome.storage.local.get(
-      ["isPremium", "customBlockedSites", "freeBlockedSites"],
-      function (result) {
-        if (result.isPremium) {
-          const customBlockedSites = result.customBlockedSites || [];
-          if (customBlockedSites.some((site) => url.hostname.includes(site))) {
-            chrome.tabs.update(details.tabId, {
-              url: chrome.runtime.getURL("blocked.html"),
-            });
-          }
-        } else {
-          const freeBlockedSites = result.freeBlockedSites || [];
-          if (freeBlockedSites.some((site) => url.hostname.includes(site))) {
-            chrome.tabs.update(details.tabId, {
-              url: chrome.runtime.getURL("blocked.html"),
-            });
-          }
-        }
-      }
-    );
+    if (blockedSites.some((site) => url.hostname.includes(site))) {
+      chrome.tabs.update(details.tabId, {
+        url: chrome.runtime.getURL("blocked.html"),
+      });
+    }
   }
 });
 

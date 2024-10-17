@@ -13,3 +13,7 @@ document.getElementById('openOptions').addEventListener('click', function() {
 document.getElementById('openSettingsPage').addEventListener('click', function() {
     chrome.runtime.openOptionsPage();
 });
+
+document.getElementById('openSettingsButton').addEventListener('click', function() {
+    chrome.runtime.openOptionsPage();
+});

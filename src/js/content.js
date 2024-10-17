@@ -131,7 +131,7 @@ function updateTimerDisplay(timeRemaining) {
 }
 
 function updateTimer() {
-  if (document.readyState === "complete") {
+  if (document.readyState === "complete" && chrome.runtime && chrome.runtime.sendMessage) {
     try {
       chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
         if (response && response.timeRemaining !== undefined) {

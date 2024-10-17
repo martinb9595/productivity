@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.timeRemaining > 0) {
                     focusModeStatusElement.textContent = `Focus Mode is running... Time left: ${timeRemainingElement.textContent}`;
                 } else {
-                    focusModeStatusElement.textContent = 'Focus Mode is not running. Time left: 00:00';
+                    focusModeStatusElement.textContent = `Focus Mode is not running. Time left: ${timeRemainingElement.textContent}`;
                 }
             }
         });

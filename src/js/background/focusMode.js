@@ -1,11 +1,30 @@
+let isInFocusMode = false;
+let focusEndTime = 0;
+let timerInterval;
+
 function startFocusMode(duration) {
-  // Implementation for starting focus mode
+    isInFocusMode = true;
+    focusEndTime = Date.now() + duration * 1000;
+    chrome.storage.sync.set({isInFocusMode: true});
+    
+    clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 1000);
 }
 
 function endFocusMode() {
-  chrome.storage.local.set({ isInFocusMode: false, focusEndTime: 0 }, () => {
-    console.log("Focus mode ended and state cleared from storage.");
-  });
+    isInFocusMode = false;
+    chrome.storage.sync.set({isInFocusMode: false});
+    clearInterval(timerInterval);
 }
 
-module.exports = { startFocusMode, endFocusMode };
+function updateTimer() {
+    const timeRemaining = getTimeRemaining();
+    if (timeRemaining <= 0) {
+        endFocusMode();
+    }
+    chrome.runtime.sendMessage({action: 'updateTimer', timeRemaining: timeRemaining});
+}
+
+function getTimeRemaining() {
+    return isInFocusMode ? Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000)) : 0;
+}

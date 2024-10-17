@@ -1,0 +1,13 @@
+/focus-mode-app
+|-- /public
+|   |-- index.html
+|-- /src
+|   |-- /components
+|   |   |-- BlockedPage.js
+|   |   |-- Popup.js
+|   |   |-- Settings.js
+|   |   |-- Timer.js
+|   |-- App.js
+|   |-- index.js
+|   |-- utils.js
+|-- package.json

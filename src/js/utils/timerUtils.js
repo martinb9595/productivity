@@ -22,4 +22,10 @@ function startTimerUpdate(interval, timerElement) {
     return setInterval(update, interval);
 }
 
-export { updateTimerDisplay, startTimerUpdate };
+function formatTimeRemaining(timeRemaining) {
+    const minutes = Math.floor(timeRemaining / 60);
+    const seconds = timeRemaining % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+export { updateTimerDisplay, startTimerUpdate, formatTimeRemaining };

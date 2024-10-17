@@ -13,9 +13,11 @@ self.addEventListener("activate", (event) => {
   console.log("Service worker activated");
 });
 
+let isInFocusMode = false;
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.get(["isInFocusMode"], function (result) {
-    let isInFocusMode = result.isInFocusMode || false;
+    isInFocusMode = result.isInFocusMode || false;
     // Initialize other state variables if needed
   });
 });

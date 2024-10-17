@@ -34,12 +34,12 @@ const Options = () => {
     };
 
     return (
-        <div>
-            <h2>Blocked Websites</h2>
-            <ul>
+        <div className="p-4">
+            <h2 className="text-xl font-semibold">Blocked Websites</h2>
+            <ul className="list-disc pl-5 mb-4">
                 {blockedSites.map((site, index) => (
-                    <li key={index}>
-                        {site} <button onClick={() => handleRemoveSite(site)}>Remove</button>
+                    <li key={index} className="flex justify-between items-center">
+                        {site} <button onClick={() => handleRemoveSite(site)} className="ml-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">Remove</button>
                     </li>
                 ))}
             </ul>
@@ -48,17 +48,19 @@ const Options = () => {
                 value={newSite}
                 onChange={(e) => setNewSite(e.target.value)}
                 placeholder="Enter website to block"
+                className="border border-gray-300 rounded-lg p-2 mb-4 w-full"
             />
-            <button onClick={handleAddSite}>Add Site</button>
-            <h2>Default Focus Duration</h2>
+            <button onClick={handleAddSite} className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Add Site</button>
+            <h2 className="text-xl font-semibold mt-4">Default Focus Duration</h2>
             <input
                 type="number"
                 value={defaultFocusDuration}
                 onChange={(e) => setDefaultFocusDuration(parseInt(e.target.value, 10))}
                 min="1"
                 max="180"
+                className="border border-gray-300 rounded-lg p-2 mb-4 w-full"
             />
-            <button onClick={handleSaveSettings}>Save Settings</button>
+            <button onClick={handleSaveSettings} className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Save Settings</button>
         </div>
     );
 };

@@ -37,8 +37,8 @@ const Popup = () => {
     };
 
     return (
-        <main className="bg-gray-100 flex justify-center items-center h-screen" style={{ backgroundColor: '#e4eaf1' }}>
-            <div className="rounded-lg shadow-lg p-8 max-w-md w-full">
+        <main className="bg-gray-100 flex justify-center items-center h-screen">
+            <div className="rounded-lg shadow-lg p-8 max-w-md w-full bg-white">
                 <h1 className="text-3xl font-bold text-center mb-6">Focus Mode</h1>
                 <input
                     type="number"

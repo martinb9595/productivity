@@ -36,8 +36,8 @@ const Blocked = () => {
     };
 
     return (
-        <div className="bg-gray-100 flex justify-center items-center h-screen" style={{ backgroundColor: '#e4eaf1' }}>
-            <div className="rounded-lg shadow-md p-8 text-center max-w-md">
+        <div className="bg-gray-100 flex justify-center items-center h-screen">
+            <div className="rounded-lg shadow-md p-8 text-center max-w-md w-full bg-white">
                 <h1 className="text-3xl font-bold text-green-500 mb-4">Site Blocked</h1>
                 <p className="text-gray-700 mb-6">This site is currently blocked to help you stay focused.</p>
                 <div id="focus-timer" className="text-2xl font-bold text-green-500 mb-6">

@@ -56,8 +56,8 @@ const Settings = () => {
     };
 
     return (
-        <main className="bg-gray-100 flex justify-center items-center h-screen" style={{ backgroundColor: '#e4eaf1' }}>
-            <div className="container rounded-lg shadow-lg p-8">
+        <main className="bg-gray-100 flex justify-center items-center h-screen">
+            <div className="container rounded-lg shadow-lg p-8 bg-white">
                 <h1 className="text-3xl font-bold text-center mb-6">Focus Mode Options</h1>
                 <div id="blockedSites">
                     <h2 className="text-xl font-semibold">Blocked Websites</h2>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { formatTimeRemaining } from './utils/timerUtils';
+import { formatTimeRemaining } from '../utils/timerUtils';
 
 const Popup = () => {
     const [focusDuration, setFocusDuration] = useState('');

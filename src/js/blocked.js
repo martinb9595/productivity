@@ -18,21 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
         setInterval(updateTimeRemaining, 1000);
     }
 
-    function updateTimeRemaining() {
-        chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
-            if (response && response.timeRemaining !== undefined) {
-                const minutes = Math.floor(response.timeRemaining / 60);
-                const seconds = response.timeRemaining % 60;
-                const timerElement = document.getElementById('focus-timer');
-                if (timerElement) {
-                    timerElement.textContent = `Time remaining in focus mode: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                }
-            }
-        });
-    }
-
-    // Initial call to set the timer immediately
-    updateTimeRemaining();
+    const timerElement = document.getElementById('focus-timer');
+    startTimerUpdate(1000, timerElement);
 
     const quoteElement = document.getElementById('inspirational-quote');
     if (quoteElement) {

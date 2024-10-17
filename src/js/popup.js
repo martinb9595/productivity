@@ -20,9 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Update the focus status every second
-    setInterval(updateFocusStatus, 1000);
-    updateFocusStatus(); // Initial call to set the status immediately
+    const timerElement = document.getElementById("focusStatus");
+    startTimerUpdate(1000, timerElement);
     if (openSettingsButton) {
         openSettingsButton.addEventListener('click', function () {
             chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });

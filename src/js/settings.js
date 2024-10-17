@@ -3,18 +3,14 @@ import { startTimerUpdate, formatTimeRemaining } from '../utils/timerUtils.js';
 document.addEventListener('DOMContentLoaded', function() {
     const focusStatus = document.getElementById('focusStatus');
     function updateFocusStatus() {
-        chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
-            if (result.isInFocusMode && result.focusEndTime) {
-                const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
-                if (timeLeft > 0) {
-                    focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
-                    focusStatus.classList.remove("text-red-500");
-                    focusStatus.classList.add("text-green-500");
-                } else {
-                    focusStatus.textContent = "Focus mode ended.";
-                    focusStatus.classList.remove("text-green-500");
-                    focusStatus.classList.add("text-red-500");
-                }
+        chrome.storage.local.get(["isInFocusMode", "focusEndTime"], ({ isInFocusMode, focusEndTime }) => {
+            if (isInFocusMode && focusEndTime) {
+                const timeLeft = Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000));
+                focusStatus.textContent = timeLeft > 0 
+                    ? `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}` 
+                    : "Focus mode ended.";
+                focusStatus.classList.toggle("text-green-500", timeLeft > 0);
+                focusStatus.classList.toggle("text-red-500", timeLeft <= 0);
             } else {
                 focusStatus.textContent = "Focus mode is not running.";
             }

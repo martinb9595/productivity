@@ -3,11 +3,13 @@
 // Options script for the Focus Mode extension
 
 document.addEventListener('DOMContentLoaded', function() {
-    const blockedSitesList = document.getElementById('blockedSitesList');
-    const newSiteInput = document.getElementById('newSite');
-    const addSiteButton = document.getElementById('addSite');
-    const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
-    const saveSettingsButton = document.getElementById('saveSettings');
+    const elements = {
+        blockedSitesList: document.getElementById('blockedSitesList'),
+        newSiteInput: document.getElementById('newSite'),
+        addSiteButton: document.getElementById('addSite'),
+        defaultFocusDurationInput: document.getElementById('defaultFocusDuration'),
+        saveSettingsButton: document.getElementById('saveSettings')
+    };
 
     // Load saved settings
     chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration'], function(result) {

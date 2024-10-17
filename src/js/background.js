@@ -18,16 +18,16 @@ let blockedSites = [];
 let isInFocusMode = false;
 let focusEndTime = 0;
 let timerInterval;
-let productivityAnalytics = {
-  focusSessions: 0,
-  totalFocusTime: 0,
-  dailyFocusTime: {},
-  websitesBlocked: {},
-  streaks: {
-    currentStreak: 0,
-    longestStreak: 0,
-    lastFocusDate: null,
-  },
+const productivityAnalytics = {
+    focusSessions: 0,
+    totalFocusTime: 0,
+    dailyFocusTime: {},
+    websitesBlocked: {},
+    streaks: {
+        currentStreak: 0,
+        longestStreak: 0,
+        lastFocusDate: null,
+    },
 };
 
 chrome.runtime.onInstalled.addListener(() => {

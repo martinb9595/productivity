@@ -7,17 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const openSettingsButton = document.getElementById("openSettings");
 
     function updateFocusStatus() {
-        chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
-            if (response && response.timeRemaining !== undefined) {
-                const timeLeft = response.timeRemaining;
-                if (timeLeft > 0) {
-                    focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
-                    focusStatus.classList.remove("text-red-500");
-                    focusStatus.classList.add("text-green-500");
-                    focusStatus.style.display = "block";
-                } else {
-                    focusStatus.style.display = "none";
-                }
+        chrome.runtime.sendMessage({ action: "getTimerStatus" }, ({ timeRemaining }) => {
+            if (timeRemaining !== undefined) {
+                focusStatus.textContent = timeRemaining > 0 
+                    ? `Focus mode is running... Time left: ${formatTimeRemaining(timeRemaining)}` 
+                    : "Focus mode is not running.";
+                focusStatus.classList.toggle("text-green-500", timeRemaining > 0);
+                focusStatus.classList.toggle("text-red-500", timeRemaining <= 0);
+                focusStatus.style.display = timeRemaining > 0 ? "block" : "none";
             } else {
                 focusStatus.style.display = "none";
             }

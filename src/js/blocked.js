@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getRandomQuote() {
         return quotes[Math.floor(Math.random() * quotes.length)];
-        // Update the timer every second
-        setInterval(updateTimeRemaining, 1000);
     }
 
     const timerElement = document.getElementById('focus-timer');

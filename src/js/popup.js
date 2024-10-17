@@ -16,9 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     focusStatus.classList.add("text-green-500");
                     focusStatus.style.display = "block";
                 } else {
+                    focusStatus.textContent = "Focus mode is not running.";
                     focusStatus.style.display = "none";
                 }
             } else {
+                focusStatus.textContent = "Focus mode is not running.";
                 focusStatus.style.display = "none";
             }
         });

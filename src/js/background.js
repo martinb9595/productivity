@@ -32,11 +32,16 @@ let productivityAnalytics = {
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(
-    ["blockedSites", "isInFocusMode"],
+    ["blockedSites"],
     function (result) {
       if (result.blockedSites) {
         blockedSites = result.blockedSites;
       }
+    }
+  );
+  chrome.storage.local.get(
+    ["isInFocusMode"],
+    function (result) {
       if (result.isInFocusMode) {
         isInFocusMode = result.isInFocusMode;
       }

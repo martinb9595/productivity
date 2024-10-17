@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateFocusStatus(); // Initial call to set the status immediately
     if (openSettingsButton) {
         openSettingsButton.addEventListener('click', function () {
-            chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });
+            window.location.href = "../html/settings.html";
         });
     }
 

@@ -21,7 +21,37 @@
             <input type="number" id="defaultFocusDuration" min="1" max="180" value="25" class="border rounded p-2 w-full">
         </div>
         <button id="saveSettings" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Save Settings</button>
+        <div id="focusStatus" class="mt-4 text-center text-red-500"></div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const focusStatus = document.getElementById('focusStatus');
+            chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
+                if (result.isInFocusMode && result.focusEndTime) {
+                    const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    focusStatus.classList.remove("text-red-500");
+                    focusStatus.classList.add("text-green-500");
+                } else {
+                    focusStatus.textContent = "Focus mode is not running.";
+                }
+            });
+
+            // Sync settings
+            const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
+            chrome.storage.sync.get(['defaultFocusDuration'], function(result) {
+                if (result.defaultFocusDuration) {
+                    defaultFocusDurationInput.value = result.defaultFocusDuration;
+                }
+            });
+
+            defaultFocusDurationInput.addEventListener('change', function() {
+                chrome.storage.sync.set({ defaultFocusDuration: defaultFocusDurationInput.value });
+            });
+        });
+    </script>
     <script src="../js/options.js"></script>
 </body>
 </html>

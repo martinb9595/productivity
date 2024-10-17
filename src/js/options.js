@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (result.defaultFocusDuration) {
             defaultFocusDurationInput.value = result.defaultFocusDuration;
         }
+        chrome.storage.sync.set({ defaultFocusDuration: defaultFocusDurationInput.value }, function() {
+            chrome.runtime.sendMessage({ action: "updateDefaultFocusDuration", duration: defaultFocusDurationInput.value });
+        });
     });
 
     addSiteButton.addEventListener('click', function () {

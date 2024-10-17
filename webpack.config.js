@@ -8,7 +8,7 @@ module.exports = {
     content: './src/js/content.js'
   },
   output: {
-    filename: 'background.bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist/js'),
   },
   module: {

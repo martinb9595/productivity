@@ -11,13 +11,14 @@ const Settings = () => {
     });
 
     useEffect(() => {
-        chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration'], (result) => {
+        const fetchSettings = async () => {
+            const result = await chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration']);
             setSettings(prev => ({
                 ...prev,
                 blockedSites: result.blockedSites || [],
                 defaultFocusDuration: result.defaultFocusDuration || 25
             }));
-        });
+        };
 
         const updateFocusStatus = () => {
             chrome.storage.local.get(["isInFocusMode", "focusEndTime"], ({ isInFocusMode, focusEndTime }) => {
@@ -30,6 +31,7 @@ const Settings = () => {
             });
         };
 
+        fetchSettings();
         const intervalId = setInterval(updateFocusStatus, 1000);
         return () => clearInterval(intervalId);
     }, []);

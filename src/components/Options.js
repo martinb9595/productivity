@@ -6,10 +6,12 @@ const Options = () => {
     const [defaultFocusDuration, setDefaultFocusDuration] = useState(25);
 
     useEffect(() => {
-        chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration'], (result) => {
+        const fetchSettings = async () => {
+            const result = await chrome.storage.sync.get(['blockedSites', 'defaultFocusDuration']);
             setBlockedSites(result.blockedSites || []);
             setDefaultFocusDuration(result.defaultFocusDuration || 25);
-        });
+        };
+        fetchSettings();
     }, []);
 
     const handleAddSite = () => {

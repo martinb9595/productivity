@@ -13,61 +13,6 @@ self.addEventListener("activate", (event) => {
   console.log("Service worker activated");
 });
 
-let isInFocusMode = false;
-
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.local.get(["isInFocusMode"], function (result) {
-    isInFocusMode = result.isInFocusMode || false;
-    // Initialize other state variables if needed
-  });
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "startFocusMode") {
-    startFocusMode(request.duration);
-  } else if (request.action === "endFocusMode") {
-    endFocusMode();
-  } else if (request.action === "validateCoupon") {
-    validateCouponCode(request.code).then((isValid) => {
-      sendResponse({ valid: isValid });
-    });
-    return true; // Indicates that the response is sent asynchronously
-  } else if (request.action === "getTimerStatus") {
-    getTimeRemaining((timeRemaining) => {
-      sendResponse({ timeRemaining });
-    });
-    return true; // Indicates that the response is sent asynchronously
-  } else if (request.action === "removePremium") {
-    chrome.storage.local.set({ isPremium: false }, () => {
-      sendResponse({ success: true });
-    });
-    return true; // Indicates that the response is sent asynchronously
-  } else if (request.action === "getProductivityAnalytics") {
-    chrome.storage.local.get(
-      ["productivityAnalytics", "isPremium"],
-      function (result) {
-        const analytics = result.productivityAnalytics || {};
-        const isPremium = result.isPremium || false;
-        const timeframe = isPremium ? request.timeframe : "weekly";
-        const report = getProductivityReport(timeframe);
-        sendResponse({ analytics: report, isPremium });
-      }
-    );
-    return true; // Indicates that the response is sent asynchronously
-  }
-});
-
-if (typeof chrome !== 'undefined' && chrome.alarms && chrome.alarms.onAlarm) {
-  chrome.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === "focusModeEnd") {
-      endFocusMode();
-    }
-  });
-} else {
-  console.error("chrome.alarms.onAlarm is not available in this context.");
-}
-
-let isInFocusMode = false;
 let blockedSites = [];
 let focusEndTime = 0;
 let timerInterval;

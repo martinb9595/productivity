@@ -7,15 +7,15 @@
   "background": {
     "service_worker": "src/js/background.js"
   },
+  "action": {
+    "default_popup": "src/components/popup.html" // Ensure this path is correct
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["src/js/content.js"]
     }
   ],
-  "action": {
-    "default_popup": "src/components/popup.html"
-  },
   "web_accessible_resources": [
     {
       "resources": ["src/assets/*"],

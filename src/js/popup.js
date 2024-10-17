@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 chrome.storage.local.set({ isInFocusMode: true, focusEndTime: Date.now() + focusDuration * 60 * 1000 });
                 if (response && response.success) {
                     console.log("Focus mode started");
-                    focusStatus.textContent = "Focus mode is running... Time left: " + focusDuration + ":00";
+                    chrome.storage.local.set({ isInFocusMode: true, focusEndTime: Date.now() + focusDuration * 60 * 1000 }, () => {
+                        updateFocusStatus(); // Update the status immediately
+                    });
                     let timeLeft = focusDuration * 60; // Convert minutes to seconds
 
                     const timerInterval = setInterval(() => {

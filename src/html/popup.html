@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Focus Mode</title>
-    <link rel="stylesheet" href="../../dist/tailwind.css">
-</head>
-<body>
-    <div class="flex flex-col items-center justify-center w-96 h-96 bg-gradient-to-r from-gray-100 to-gray-200 p-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-8">Focus Mode</h1>
-        <button id="openSettings" class="w-full max-w-md mb-5 py-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 ease-in-out">Advanced Settings</button>
-        <button id="toggleFocus" class="w-full max-w-md mb-5 py-3 bg-teal-600 text-white rounded-full shadow-lg hover:bg-teal-700 transition duration-300 ease-in-out">Start Focus Mode</button>
-        <input type="number" id="focusDuration" placeholder="Focus Duration (minutes)" min="1" class="w-full max-w-md py-3 border border-gray-300 rounded-full shadow-md text-center placeholder:text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out">
-        <div id="focusStatus" class="mt-4 text-center text-red-500"></div>
+    <link rel="stylesheet" href="../../dist/tailwind.css" />
+  </head>
+  <body>
+    <div
+      class="flex flex-col items-center justify-center w-96 h-96 bg-gradient-to-r from-gray-100 to-gray-200 p-8"
+    >
+      <h1 class="text-4xl font-bold text-gray-900 mb-8">Focus Mode</h1>
+      <button
+        id="openSettings"
+        class="w-full max-w-md mb-5 py-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 ease-in-out"
+      >
+        Advanced Settings
+      </button>
+      <button
+        id="toggleFocus"
+        class="w-full max-w-md mb-5 py-3 bg-teal-600 text-white rounded-full shadow-lg hover:bg-teal-700 transition duration-300 ease-in-out"
+      >
+        Start Focus Mode
+      </button>
+      <input
+        type="number"
+        id="focusDuration"
+        placeholder="Focus Duration (minutes)"
+        min="1"
+        class="w-full max-w-md py-3 border border-gray-300 rounded-full shadow-md text-center placeholder:text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+      />
+      <div id="focusStatus" class="mt-4 text-center text-red-500"></div>
     </div>
-</body>
-<script src="../js/popup.js"></script>
+
+    <!-- Add the type="module" attribute to the script tag -->
+    <script type="module" src="../js/popup.js"></script>
+  </body>
 </html>

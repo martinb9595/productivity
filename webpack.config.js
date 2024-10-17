@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     background: './src/js/background.js',
     popup: './src/js/popup.js',
-    content: './src/js/content.js'
+    content: './src/js/content.js',
   },
   cache: {
     type: 'filesystem',

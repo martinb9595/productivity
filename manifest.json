@@ -1,16 +1,10 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Focus Mode",
   "version": "1.0",
   "description": "Enhance productivity by blocking distracting websites and providing a focus timer.",
-  "permissions": [
-    "storage",
-    "tabs",
-    "webNavigation"
-  ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
+  "permissions": ["storage", "tabs", "webNavigation"],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "src/js/background.js",
     "type": "module"

@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const openSettingsButton = document.getElementById("openSettings");
 
     function updateFocusStatus() {
-        chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
-            if (response && response.timeRemaining !== undefined) {
-                const timeLeft = response.timeRemaining;
+        chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
+            if (result.isInFocusMode && result.focusEndTime) {
+                const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
                 if (timeLeft > 0) {
                     focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
                     focusStatus.classList.remove("text-red-500");

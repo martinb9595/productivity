@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleFocusButton = document.getElementById("toggleFocus");
     if (toggleFocusButton) {
         toggleFocusButton.addEventListener("click", () => {
-            chrome.runtime.sendMessage({ action: "startFocusMode" }, (response) => {
+            const focusDuration = parseInt(document.getElementById("focusDuration").value, 10) || 25;
+            chrome.runtime.sendMessage({ action: "startFocusMode", duration: focusDuration }, (response) => {
                 if (response && response.success) {
                     console.log("Focus mode started");
                     // Optionally, update the UI to reflect the focus mode state

@@ -1,30 +1,24 @@
-require('@rushstack/heft-node-rig/profiles/default/includes/eslint/patch/modern-module-resolution');
-require('@rushstack/heft-node-rig/profiles/default/includes/eslint/patch/custom-config-package-names');
-
 module.exports = {
   extends: [
-    '@rushstack/heft-node-rig/profiles/default/includes/eslint/profile/node',
-    '@rushstack/heft-node-rig/profiles/default/includes/eslint/mixins/friendly-locals',
-    '@rushstack/heft-node-rig/profiles/default/includes/eslint/mixins/tsdoc'
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
+    'plugin:react-hooks/recommended',
   ],
-  parserOptions: { tsconfigRootDir: __dirname },
-  plugins: ['eslint-plugin-header'],
-  globals: {
-    chrome: 'readonly'
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: {
-        'header/header': [
-          'warn',
-          'line',
-          [
-            ' Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.',
-            ' See LICENSE in the project root for license information.'
-          ]
-        ]
-      }
-    }
-  ]
+  plugins: ['react', 'jsx-a11y', 'import'],
+  globals: {
+    chrome: 'readonly',
+  },
+  rules: {
+    // Add any custom rules here
+  },
 };

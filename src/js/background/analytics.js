@@ -39,6 +39,8 @@ function updateStreak(today) {
   productivityAnalytics.streaks.lastFocusDate = today;
 }
 
+export { updateStreak, getProductivityReport };
+
 function getProductivityReport(timeframe) {
   const today = new Date();
   let startDate;

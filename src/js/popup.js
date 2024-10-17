@@ -17,3 +17,7 @@ document.getElementById('openSettingsPage').addEventListener('click', function()
 document.getElementById('openSettingsButton').addEventListener('click', function() {
     chrome.runtime.openOptionsPage();
 });
+
+document.getElementById('openSettingsHtml').addEventListener('click', function() {
+    chrome.runtime.openOptionsPage();
+});

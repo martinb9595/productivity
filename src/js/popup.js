@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Update the timer every second
-    setInterval(updateTimer, 1000);
     updateTimer(); // Initial call to set the status immediately
+    setInterval(updateTimer, 1000);
     if (openSettingsButton) {
         openSettingsButton.addEventListener('click', function () {
             chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });

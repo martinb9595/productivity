@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-if (chrome && chrome.alarms && chrome.alarms.onAlarm) {
+if (typeof chrome !== 'undefined' && chrome.alarms && chrome.alarms.onAlarm) {
   chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "focusModeEnd") {
       endFocusMode();

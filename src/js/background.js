@@ -2,12 +2,14 @@
 
 const { startFocusMode, endFocusMode } = require("./background/focusMode.js");
 const { updateTimer, getTimeRemaining } = require("./background/timer.js");
-const { updateStreak, getProductivityReport } = require("./background/analytics.js");
+const {
+  updateStreak,
+  getProductivityReport,
+} = require("./background/analytics.js");
 const {
   validateCouponCode,
   updateCustomBlockedSites,
 } = require("./background/premium.js");
-
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.get(["isInFocusMode"], function (result) {
@@ -295,4 +297,3 @@ function endFocusMode() {
     message: "Great job! Your focus session has ended.",
   });
 }
-

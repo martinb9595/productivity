@@ -251,15 +251,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-function endFocusMode() {
-  isInFocusMode = false;
-  chrome.storage.sync.set({ isInFocusMode: false });
-  clearInterval(timerInterval);
-
-  chrome.notifications.create({
-    type: "basic",
-    iconUrl: "images/icon128.png",
-    title: "Focus Mode Ended",
-    message: "Great job! Your focus session has ended.",
-  });
-}

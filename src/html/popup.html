@@ -30,7 +30,9 @@
         min="1"
         class="w-full max-w-md py-3 border border-gray-300 rounded-full shadow-md text-center placeholder:text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
         aria-label="Focus duration in minutes" />
-      <div id="focusStatus" class="mt-4 text-center text-red-500" role="status" aria-live="polite">Focus mode waiting</div>
+      <div id="focusStatus" class="mt-4 text-center text-red-500" role="status" aria-live="polite">
+        <p id="focusModeStatus">Focus Mode is not running. Time left: <span id="timeRemaining">00:00</span></p>
+      </div>
     </main>
 
     <!-- Add the type="module" attribute to the script tag -->

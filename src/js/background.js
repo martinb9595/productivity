@@ -55,14 +55,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-if (typeof chrome.alarms !== 'undefined') {
+if (chrome && chrome.alarms && chrome.alarms.onAlarm) {
   chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "focusModeEnd") {
       endFocusMode();
     }
   });
 } else {
-  console.error("chrome.alarms is not available in this context.");
+  console.error("chrome.alarms.onAlarm is not available in this context.");
 }
 
 let blockedSites = [];

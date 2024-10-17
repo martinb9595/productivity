@@ -17,23 +17,23 @@ document.addEventListener('DOMContentLoaded', function() {
             result.blockedSites.forEach(site => addBlockedSite(site));
         }
         if (result.defaultFocusDuration) {
-            defaultFocusDurationInput.value = result.defaultFocusDuration;
+            elements.defaultFocusDurationInput.value = result.defaultFocusDuration;
         }
-        chrome.storage.sync.set({ defaultFocusDuration: defaultFocusDurationInput.value }, function() {
-            chrome.runtime.sendMessage({ action: "updateDefaultFocusDuration", duration: defaultFocusDurationInput.value });
+        chrome.storage.sync.set({ defaultFocusDuration: elements.defaultFocusDurationInput.value }, function() {
+            chrome.runtime.sendMessage({ action: "updateDefaultFocusDuration", duration: elements.defaultFocusDurationInput.value });
         });
     });
 
-    addSiteButton.addEventListener('click', function () {
-        const newSite = newSiteInput.value.trim();
+    elements.addSiteButton.addEventListener('click', function () {
+        const newSite = elements.newSiteInput.value.trim();
         if (newSite) {
             addBlockedSite(newSite);
-            newSiteInput.value = '';
+            elements.newSiteInput.value = '';
             saveBlockedSites();
         }
     });
 
-    saveSettingsButton.addEventListener('click', saveSettings);
+    elements.saveSettingsButton.addEventListener('click', saveSettings);
 
     function addBlockedSite(site) {
         const li = document.createElement('li');
@@ -46,16 +46,16 @@ document.addEventListener('DOMContentLoaded', function() {
             saveBlockedSites();
         });
         li.appendChild(removeButton);
-        blockedSitesList.appendChild(li);
+        elements.blockedSitesList.appendChild(li);
     }
 
     function saveBlockedSites() {
-        const sites = Array.from(blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim());
+        const sites = Array.from(elements.blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim());
         chrome.storage.sync.set({blockedSites: sites});
     }
 
     function saveSettings() {
-        const defaultFocusDuration = parseInt(defaultFocusDurationInput.value, 10);
+        const defaultFocusDuration = parseInt(elements.defaultFocusDurationInput.value, 10);
         if (isNaN(defaultFocusDuration) || defaultFocusDuration <= 0) {
             alert('Please enter a valid focus duration.');
             return;
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const settings = {
             defaultFocusDuration: defaultFocusDuration,
-            blockedSites: Array.from(blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim())
+            blockedSites: Array.from(elements.blockedSitesList.children).map(li => li.textContent.replace('Remove', '').trim())
         };
         chrome.storage.sync.set(settings, function() {
             alert('Settings saved successfully!');

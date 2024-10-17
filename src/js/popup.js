@@ -7,14 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const openSettingsButton = document.getElementById("openSettings");
 
     function updateFocusStatus() {
-        chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
-            if (result.isInFocusMode && result.focusEndTime) {
-                const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
-                focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
-                focusStatus.classList.remove("text-red-500");
-                focusStatus.classList.add("text-green-500");
+        chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
+            if (response && response.timeRemaining !== undefined) {
+                const timeLeft = response.timeRemaining;
                 if (timeLeft > 0) {
-                    focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
                     focusStatus.classList.remove("text-red-500");
                     focusStatus.classList.add("text-green-500");
                 } else {
@@ -23,7 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     focusStatus.classList.add("text-red-500");
                 }
             } else {
-                focusStatus.textContent = "";
+                focusStatus.textContent = "Focus mode is not running.";
+                focusStatus.classList.remove("text-green-500");
+                focusStatus.classList.add("text-red-500");
             }
         });
     }

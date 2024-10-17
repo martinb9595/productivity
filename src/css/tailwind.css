@@ -1,3 +1,5 @@
+/* Consolidated styles from other CSS files */
+
 /* Tailwind CSS styles remain unchanged */
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
@@ -53,4 +55,4 @@
   --tw-contain-style:  ;
 }
 
-/* Additional styles omitted for brevity */
+/* Additional styles from other CSS files can be added here */

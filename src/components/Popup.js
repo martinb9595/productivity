@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { formatTimeRemaining } from '../utils/timerUtils';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Blocked from './Blocked';
+import Options from './Options';
+import Settings from './Settings';
 
 const Popup = () => {
     const [focusDuration, setFocusDuration] = useState('');
@@ -37,25 +41,32 @@ const Popup = () => {
     };
 
     return (
-        <main className="bg-gray-100 flex justify-center items-center h-screen">
-            <div className="rounded-lg shadow-lg p-8 max-w-md w-full bg-white">
-                <h1 className="text-3xl font-bold text-center mb-6">Focus Mode</h1>
-                <input
-                    type="number"
-                    value={focusDuration}
-                    onChange={(e) => setFocusDuration(e.target.value)}
-                    placeholder="Focus Duration (minutes)"
-                    min="1"
-                    className="border border-gray-300 rounded-lg p-2 mb-4 w-full"
-                />
-                <div className="space-y-4">
-                    <button onClick={handleStartFocusMode} className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Start Focus Mode</button>
+        <Router>
+            <main className="bg-gray-100 flex justify-center items-center h-screen">
+                <div className="rounded-lg shadow-lg p-8 max-w-md w-full bg-white">
+                    <h1 className="text-3xl font-bold text-center mb-6">Focus Mode</h1>
+                    <input
+                        type="number"
+                        value={focusDuration}
+                        onChange={(e) => setFocusDuration(e.target.value)}
+                        placeholder="Focus Duration (minutes)"
+                        min="1"
+                        className="border border-gray-300 rounded-lg p-2 mb-4 w-full"
+                    />
+                    <div className="space-y-4">
+                        <button onClick={handleStartFocusMode} className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">Start Focus Mode</button>
+                    </div>
+                    <div id="focusStatus" role="status" aria-live="polite" className="mt-4 text-center">
+                        <p className="text-gray-700">{focusStatus} Time left: <span id="timeRemaining">{timeRemaining}</span></p>
+                    </div>
+                    <Routes>
+                        <Route path="/" element={<Options />} />
+                        <Route path="/blocked" element={<Blocked />} />
+                        <Route path="/settings" element={<Settings />} />
+                    </Routes>
                 </div>
-                <div id="focusStatus" role="status" aria-live="polite" className="mt-4 text-center">
-                    <p className="text-gray-700">{focusStatus} Time left: <span id="timeRemaining">{timeRemaining}</span></p>
-                </div>
-            </div>
-        </main>
+            </main>
+        </Router>
     );
 };
 

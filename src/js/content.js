@@ -4,7 +4,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-function updateTimerDisplay(timeRemaining, timerElement) {
+function updateTimer(timeRemaining, timerElement) {
   updateTimerDisplay(timeRemaining, timerElement);
 }
 

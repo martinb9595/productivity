@@ -1,9 +1,9 @@
 // Background script for the Focus Mode extension
 
-import { startFocusMode, endFocusMode } from "./background/focusMode.js";
-import { updateTimer, getTimeRemaining } from "./background/timer.js";
-import { updateStreak, getProductivityReport } from "./background/analytics.js";
-import { updateCustomBlockedSites } from "./background/premium.js";
+const { startFocusMode, endFocusMode } = require("./background/focusMode.js");
+const { updateTimer, getTimeRemaining } = require("./background/timer.js");
+const { updateStreak, getProductivityReport } = require("./background/analytics.js");
+const { updateCustomBlockedSites } = require("./background/premium.js");
 
 self.addEventListener("install", (event) => {
   console.log("Service worker installed");

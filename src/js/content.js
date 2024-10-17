@@ -132,13 +132,15 @@ function updateTimerDisplay(timeRemaining) {
 
 // Initial timer update when the content script loads
 function updateTimer() {
-    chrome.runtime.sendMessage({action: 'getTimerStatus'}, (response) => {
-        if (response && response.timeRemaining !== undefined) {
-            updateTimerDisplay(response.timeRemaining);
-        }
-        // Schedule the next update
-        setTimeout(updateTimer, 1000);
-    });
+    if (document.readyState === 'complete') {
+        chrome.runtime.sendMessage({action: 'getTimerStatus'}, (response) => {
+            if (response && response.timeRemaining !== undefined) {
+                updateTimerDisplay(response.timeRemaining);
+            }
+            // Schedule the next update
+            setTimeout(updateTimer, 1000);
+        });
+    }
 }
 
 // Start updating the timer

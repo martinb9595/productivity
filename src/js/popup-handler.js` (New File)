@@ -1,6 +1,0 @@
-document.getElementById('openSettings').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
-});
-document.getElementById('openSettings').addEventListener('click', function() {
-    chrome.runtime.openOptionsPage();
-});

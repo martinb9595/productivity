@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    addSiteButton.addEventListener('click', function() {
+    addSiteButton.addEventListener('click', function () {
         const newSite = newSiteInput.value.trim();
         if (newSite) {
             addBlockedSite(newSite);

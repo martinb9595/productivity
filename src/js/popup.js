@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const openSettingsButton = document.getElementById("openSettings");
     if (openSettingsButton) {
-        openSettingsButton.addEventListener('click', function() {
+        openSettingsButton.addEventListener('click', function () {
             chrome.tabs.create({ url: chrome.runtime.getURL("src/html/settings.html") });
         });
     }

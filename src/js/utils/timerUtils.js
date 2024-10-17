@@ -23,5 +23,3 @@ function startTimerUpdate(interval, timerElement) {
 }
 
 export { updateTimerDisplay, startTimerUpdate };
-
-export { updateTimerDisplay };

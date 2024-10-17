@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response && response.success) {
                 focusStatus.textContent = "Focus mode is not running.";
                 toggleStopButton(false);
+                chrome.runtime.sendMessage({ action: "updatePopup" });
             }
         });
     });

@@ -1,7 +1,8 @@
 // Background script for the Focus Mode extension
 
 import { startFocusMode, endFocusMode } from "./background/focusMode.js";
-import { updateTimer, getTimeRemaining } from "./background/timer.js";
+import { getTimeRemaining } from "./background/timer.js";
+import { updateTimerDisplay as updateTimer } from "./utils/timerUtils.js";
 import { updateStreak, getProductivityReport } from "./background/analytics.js";
 import { updateCustomBlockedSites } from "./background/premium.js";
 

@@ -1,3 +1,5 @@
+import { startTimerUpdate } from './utils/timerUtils.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const focusStatus = document.getElementById('focusStatus');
     function updateFocusStatus() {

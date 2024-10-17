@@ -55,4 +55,163 @@
   --tw-contain-style:  ;
 }
 
+/* Popup styles */
+body {
+  font-family: Arial, sans-serif;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 24rem;
+  height: 24rem;
+  background: linear-gradient(to right, #f7fafc, #edf2f7);
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 2rem;
+}
+
+button {
+  width: 100%;
+  max-width: 20rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #4c51bf;
+}
+
+input {
+  width: 100%;
+  max-width: 20rem;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 9999px;
+  text-align: center;
+}
+
+input::placeholder {
+  text-align: center;
+}
+
+#focusStatus {
+  margin-top: 1rem;
+  text-align: center;
+  color: #f56565;
+}
+
+/* Settings styles */
+.container {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+#blockedSites {
+  margin-top: 1rem;
+}
+
+#defaultSettings {
+  margin-top: 1rem;
+}
+
+#focusStatus {
+  margin-top: 1rem;
+  text-align: center;
+  color: #f56565;
+}
+
+/* Blocked page styles */
+.bg-gray-100 {
+  background-color: #f7fafc;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-green-500 {
+  color: #48bb78;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.text-gray-700 {
+  color: #4a5568;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.text-gray-600 {
+  color: #718096;
+}
+
+.italic {
+  font-style: italic;
+}
+
 /* Additional styles from other CSS files can be added here */

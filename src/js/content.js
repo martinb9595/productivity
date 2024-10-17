@@ -5,7 +5,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 function updateTimerDisplay(timeRemaining, timerElement) {
-  const timerElement = document.getElementById("focus-timer");
   updateTimerDisplay(timeRemaining, timerElement);
 }
 

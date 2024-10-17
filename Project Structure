@@ -10,4 +10,6 @@
 |   |-- App.js
 |   |-- index.js
 |   |-- utils.js
+|   |-- styles.css
 |-- package.json
+|-- tailwind.config.js

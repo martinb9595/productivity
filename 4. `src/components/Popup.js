@@ -1,38 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { formatTimeRemaining, startTimerUpdate } from '../utils';
+import React, { useState, useEffect } from 'react';
+import { formatTimeRemaining } from '../utils';
 
 const Popup = () => {
-  const [focusMode, setFocusMode] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(0);
+    const [isInFocusMode, setIsInFocusMode] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Fetch timer status from storage or background script
-      chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
-        if (response && response.timeRemaining !== undefined) {
-          setTimeRemaining(response.timeRemaining);
-          setFocusMode(response.timeRemaining > 0);
-        }
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Logic to update time remaining
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
 
-  const startFocusMode = (duration) => {
-    chrome.runtime.sendMessage({ action: "startFocusMode", duration }, (response) => {
-      if (response && response.success) {
-        setFocusMode(true);
-      }
-    });
-  };
-
-  return (
-    <div>
-      <h1>Focus Mode</h1>
-      <p>{focusMode ? `Time left: ${formatTimeRemaining(timeRemaining)}` : "Focus mode is not running."}</p>
-      <button onClick={() => startFocusMode(25)}>Start Focus Mode</button>
-    </div>
-  );
+    return (
+        <div>
+            <h1>Focus Mode</h1>
+            <p>{isInFocusMode ? `Time left: ${formatTimeRemaining(timeRemaining)}` : "Focus mode is not running."}</p>
+            <button onClick={() => {/* Start focus mode logic */}}>Start Focus Mode</button>
+        </div>
+    );
 };
 
 export default Popup;

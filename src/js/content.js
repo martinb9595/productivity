@@ -132,13 +132,17 @@ function updateTimerDisplay(timeRemaining) {
 
 function updateTimer() {
   if (document.readyState === "complete") {
-    chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
-      if (response && response.timeRemaining !== undefined) {
-        updateTimerDisplay(response.timeRemaining);
-      }
-      // Schedule the next update
-      setTimeout(updateTimer, 1000);
-    });
+    try {
+      chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
+        if (response && response.timeRemaining !== undefined) {
+          updateTimerDisplay(response.timeRemaining);
+        }
+        // Schedule the next update
+        setTimeout(updateTimer, 1000);
+      });
+    } catch (error) {
+      console.error("Failed to send message:", error);
+    }
   }
 }
 

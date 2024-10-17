@@ -155,10 +155,6 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
   }
 });
 
-// Function to update custom blocked sites list
-function updateCustomBlockedSites(sites) {
-  chrome.storage.sync.set({ customBlockedSites: sites });
-}
 
 // Admin premium code
 const ADMIN_PREMIUM_CODE = "0888215426";

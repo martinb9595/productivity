@@ -5,8 +5,8 @@
   "description": "Enhance productivity by blocking distracting websites and providing a focus timer.",
   "permissions": ["storage", "tabs", "webNavigation", "<all_urls>"],
   "background": {
-    "scripts": ["dist/js/background.bundle.js"],
-    "persistent": false
+    "service_worker": "dist/js/background.bundle.js",
+    "type": "module"
   },
   "browser_action": {
     "default_popup": "popup.html",

@@ -217,16 +217,6 @@ function startTimer(duration) {
   }, 1000);
 }
 
-function updateTimer(timeRemaining) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    if (tabs[0]) {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        action: "updateTimer",
-        timeRemaining: timeRemaining,
-      });
-    }
-  });
-}
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "getTimerStatus") {

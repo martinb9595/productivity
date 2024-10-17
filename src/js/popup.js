@@ -9,3 +9,7 @@ document.getElementById('openSettings').addEventListener('click', function() {
 document.getElementById('openOptions').addEventListener('click', function() {
     chrome.runtime.openOptionsPage();
 });
+
+document.getElementById('openSettingsPage').addEventListener('click', function() {
+    chrome.runtime.openOptionsPage();
+});

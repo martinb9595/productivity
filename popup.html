@@ -7,26 +7,22 @@
     <link rel="stylesheet" href="tailwind.css">
     <link rel="stylesheet" href="src/css/styles.css">
 </head>
-<body class="bg-gray-100 p-4 w-128">
-    <div id="popup-content" class="bg-white rounded-lg shadow-md p-4">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Focus Mode</h1>
-        <button id="toggleFocus" class="btn w-full mb-4">Start Focus Mode</button>
-        <a href="src/html/settings.html" class="btn w-full mb-4">Open Settings Page</a>
-        <a href="src/html/settings.html" class="btn w-full mb-4">Open Settings Page</a>
-        <button id="openOptions" class="btn w-full mb-4">Open Options</button>
-        <button id="openSettingsPage" class="btn w-full mb-4">Open Settings Page</button>
-        <button id="openSettingsButton" class="btn w-full mb-4">Open Settings</button>
-        <button id="openSettingsHtml" class="btn w-full mb-4">Open Settings HTML</button>
+<body class="bg-gray-100 p-6 w-full max-w-sm mx-auto">
+    <div id="popup-content" class="bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-6">Focus Mode</h1>
+        <button id="toggleFocus" class="btn w-full mb-4 hover:bg-green-700 transition duration-300">Start Focus Mode</button>
+        <a href="src/html/settings.html" class="btn w-full mb-4 hover:bg-green-700 transition duration-300">Open Settings Page</a>
+        <button id="openOptions" class="btn w-full mb-4 hover:bg-green-700 transition duration-300">Open Options</button>
         <div id="timer" class="hidden text-2xl font-bold text-center text-green-500 mb-4">
             <span id="time-left"></span>
         </div>
-        <div id="quick-settings" class="mb-4">
-            <h2 class="text-lg font-semibold text-gray-700 mb-2">Quick Settings</h2>
-            <label for="focusDuration" class="block text-sm font-medium text-gray-600 mb-1">Focus Duration (minutes):</label>
-            <input type="number" id="focusDuration" min="1" max="180" value="25" class="w-full p-2 border rounded mb-2">
-            <button id="openOptions" class="btn w-full">Advanced Settings</button>
+        <div id="quick-settings" class="mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-3">Quick Settings</h2>
+            <label for="focusDuration" class="block text-sm font-medium text-gray-700 mb-2">Focus Duration (minutes):</label>
+            <input type="number" id="focusDuration" min="1" max="180" value="25" class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button id="openOptions" class="btn w-full hover:bg-green-700 transition duration-300">Advanced Settings</button>
         </div>
-        <div id="motivation" class="hidden bg-blue-50 p-4 rounded">
+        <div id="motivation" class="hidden bg-blue-50 p-4 rounded-lg">
             <h3 class="text-lg font-semibold text-blue-800 mb-2">Stay Focused!</h3>
             <p id="motivationalQuote" class="text-blue-600 italic"></p>
         </div>

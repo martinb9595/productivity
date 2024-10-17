@@ -1,7 +1,9 @@
-import { startTimerUpdate, formatTimeRemaining } from './utils/timerUtils.js';
+import { formatTimeRemaining } from './utils/timerUtils.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const focusStatus = document.getElementById('focusStatus');
+    const stopFocusModeButton = document.getElementById('stopFocusMode');
+
     function updateFocusStatus() {
         chrome.storage.local.get(["isInFocusMode", "focusEndTime"], ({ isInFocusMode, focusEndTime }) => {
             const timeLeft = isInFocusMode && focusEndTime ? Math.max(0, Math.floor((focusEndTime - Date.now()) / 1000)) : 0;
@@ -14,48 +16,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     : "Focus mode is not running.";
                 focusStatus.classList.toggle("text-green-500", timeLeft > 0);
                 focusStatus.classList.toggle("text-red-500", timeLeft <= 0);
-            } else {
-                focusStatus.textContent = "Focus mode is not running.";
-                focusStatus.classList.remove("text-green-500");
-                focusStatus.classList.add("text-red-500");
             }
         });
-    }
-
-    const stopFocusModeButton = document.getElementById('stopFocusMode');
-
-    function toggleStopButton(isInFocusMode) {
-        if (isInFocusMode) {
-            stopFocusModeButton.style.display = 'block';
-        } else {
-            stopFocusModeButton.style.display = 'none';
-        }
     }
 
     stopFocusModeButton.addEventListener('click', function() {
         chrome.runtime.sendMessage({ action: "endFocusMode" }, (response) => {
             if (response && response.success) {
                 focusStatus.textContent = "Focus mode is not running.";
-                toggleStopButton(false);
-                chrome.runtime.sendMessage({ action: "updatePopup" });
+                updateFocusStatus();
             }
         });
     });
 
-
-    // Update the focus status every second
     setInterval(updateFocusStatus, 1000);
     updateFocusStatus(); // Initial call to set the status immediately
-
-    // Sync settings
-    const defaultFocusDurationInput = document.getElementById('defaultFocusDuration');
-    chrome.storage.sync.get(['defaultFocusDuration'], function(result) {
-        if (result.defaultFocusDuration) {
-            defaultFocusDurationInput.value = result.defaultFocusDuration;
-        }
-    });
-
-    defaultFocusDurationInput.addEventListener('change', function() {
-        chrome.storage.sync.set({ defaultFocusDuration: defaultFocusDurationInput.value });
-    });
 });

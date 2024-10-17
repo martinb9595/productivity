@@ -1,12 +1,8 @@
 function updateTimerDisplay(timeRemaining, timerElement) {
     if (timerElement) {
-        if (timeRemaining > 0) {
-            const minutes = Math.floor(timeRemaining / 60);
-            const seconds = timeRemaining % 60;
-            timerElement.textContent = `Time remaining in focus mode: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-        } else {
-            timerElement.textContent = 'Focus mode ended';
-        }
+        timerElement.textContent = timeRemaining > 0
+            ? `Time remaining in focus mode: ${Math.floor(timeRemaining / 60)}:${(timeRemaining % 60).toString().padStart(2, '0')}`
+            : 'Focus mode ended';
     }
 }
 
@@ -18,7 +14,7 @@ function startTimerUpdate(interval, timerElement) {
             }
         });
     }
-    update(); // Initial call
+    update();
     return setInterval(update, interval);
 }
 

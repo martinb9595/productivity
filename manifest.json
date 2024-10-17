@@ -3,7 +3,7 @@
   "name": "Focus Mode",
   "version": "1.0",
   "description": "Enhance productivity by blocking distracting websites and providing a focus timer.",
-  "permissions": ["storage", "tabs", "webNavigation", "<all_urls>"],
+  "permissions": ["storage", "tabs", "webNavigation", "<all_urls>", "alarms"],
   "background": {
     "service_worker": "dist/js/background.bundle.js",
     "type": "module"

@@ -3,6 +3,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const focusStatus = document.getElementById("focusStatus");
+    const openSettingsButton = document.getElementById("openSettings");
 
     // Check if focus mode is already running
     chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {

@@ -8,9 +8,6 @@ import { updateCustomBlockedSites } from "./background/premium.js";
 self.addEventListener("install", (event) => {
   console.log("Service worker installed");
   });
-} else {
-  console.error("chrome.alarms is not available in this context.");
-}
 
 self.addEventListener("activate", (event) => {
   console.log("Service worker activated");
@@ -60,10 +57,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 if (chrome.alarms) {
   chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === "focusModeEnd") {
-    endFocusMode();
-  }
-});
+    if (alarm.name === "focusModeEnd") {
+      endFocusMode();
+    }
+  });
+} else {
+  console.error("chrome.alarms is not available in this context.");
+}
 
 let blockedSites = [];
 let focusEndTime = 0;

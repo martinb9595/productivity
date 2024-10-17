@@ -1,6 +1,6 @@
 // Background script for the Focus Mode extension
 
-import { startFocusMode, endFocusMode } from "./focusMode.js";
+import { startFocusMode, endFocusMode } from "./background/focusMode.js";
 import { updateTimerDisplay as updateTimer } from "./utils/timerUtils.js";
 
 self.addEventListener("install", (event) => {

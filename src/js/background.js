@@ -88,6 +88,13 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
       chrome.tabs.update(details.tabId, {
         url: chrome.runtime.getURL("src/html/blocked.html"),
       });
+
+      // Save the blocked page URL
+      chrome.storage.local.get({ blockedPages: [] }, (result) => {
+        const blockedPages = result.blockedPages;
+        blockedPages.push(url.href);
+        chrome.storage.local.set({ blockedPages });
+      });
     }
   }
 });

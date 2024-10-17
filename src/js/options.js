@@ -72,14 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateFocusModeStatus() {
         chrome.runtime.sendMessage({ action: "getTimerStatus" }, (response) => {
+            const minutes = Math.floor(response.timeRemaining / 60);
+            const seconds = response.timeRemaining % 60;
+            document.getElementById('timeRemaining').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             if (response.timeRemaining > 0) {
-                const minutes = Math.floor(response.timeRemaining / 60);
-                const seconds = response.timeRemaining % 60;
-                document.getElementById('timeRemaining').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 document.getElementById('focusModeStatus').textContent = `Focus Mode is running... Time left: ${document.getElementById('timeRemaining').textContent}`;
             } else {
-                document.getElementById('focusModeStatus').textContent = 'Focus Mode is not running.';
-                document.getElementById('timeRemaining').textContent = '00:00';
+                document.getElementById('focusModeStatus').textContent = 'Focus Mode is not running. Time left: 00:00';
             }
         });
     }

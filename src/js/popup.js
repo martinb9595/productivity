@@ -14,15 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
                     focusStatus.classList.remove("text-red-500");
                     focusStatus.classList.add("text-green-500");
+                    focusStatus.style.display = "block";
                 } else {
-                    focusStatus.textContent = "Focus mode is not running.";
-                    focusStatus.classList.remove("text-green-500");
-                    focusStatus.classList.add("text-red-500");
+                    focusStatus.style.display = "none";
                 }
             } else {
-                focusStatus.textContent = "Focus mode is not running.";
-                focusStatus.classList.remove("text-green-500");
-                focusStatus.classList.add("text-red-500");
+                focusStatus.style.display = "none";
             }
         });
     }

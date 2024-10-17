@@ -40,7 +40,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 function updateTimerDisplay(timeRemaining) {
     const timerElement = document.getElementById('focus-timer');
-    updateTimerDisplay(timeRemaining, timerElement);
+    if (timerElement) {
+        timerElement.textContent = `Time remaining in focus mode: ${timeRemaining} seconds`;
+    }
 }
 // Content script for the Focus Mode extension
 

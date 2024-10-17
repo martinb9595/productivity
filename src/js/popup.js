@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     focusStatus.classList.remove("text-red-500");
                     focusStatus.classList.add("text-green-500");
                 } else {
-                    focusStatus.textContent = "Focus mode ended.";
+                    focusStatus.textContent = "";
                     focusStatus.classList.remove("text-green-500");
                     focusStatus.classList.add("text-red-500");
                 }

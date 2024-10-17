@@ -89,9 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const timerInterval = setInterval(() => {
                         timeLeft--;
-                        const minutes = Math.floor(timeLeft / 60);
-                        const seconds = timeLeft % 60;
-                        focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                        if (timeLeft > 0) {
+                            focusStatus.textContent = `Focus mode is running... Time left: ${formatTimeRemaining(timeLeft)}`;
+                            focusStatus.classList.remove("text-red-500");
+                            focusStatus.classList.add("text-green-500");
+                        } else {
+                            focusStatus.textContent = "Focus mode ended.";
+                            focusStatus.classList.remove("text-green-500");
+                            focusStatus.classList.add("text-red-500");
+                        }
 
                         if (timeLeft <= 0) {
                             clearInterval(timerInterval);

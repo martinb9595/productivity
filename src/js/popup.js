@@ -5,16 +5,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const focusStatus = document.getElementById("focusStatus");
 
     // Check if focus mode is already running
-    chrome.storage.local.get("isInFocusMode", (result) => {
-        if (result.isInFocusMode) {
-            chrome.storage.local.get("focusEndTime", (result) => {
-                const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-                focusStatus.classList.remove("text-red-500");
-                focusStatus.classList.add("text-green-500");
-            });
+    chrome.storage.local.get(["isInFocusMode", "focusEndTime"], (result) => {
+        if (result.isInFocusMode && result.focusEndTime) {
+            const timeLeft = Math.max(0, Math.floor((result.focusEndTime - Date.now()) / 1000));
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            focusStatus.textContent = `Focus mode is running... Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            focusStatus.classList.remove("text-red-500");
+            focusStatus.classList.add("text-green-500");
         }
     });
     if (openSettingsButton) {

@@ -1,10 +1,7 @@
 // Background script for the Focus Mode extension
 
 import { startFocusMode, endFocusMode } from "./focusMode.js";
-import { getTimeRemaining } from "./timer.js";
 import { updateTimerDisplay as updateTimer } from "./utils/timerUtils.js";
-import { updateStreak, getProductivityReport } from "./analytics.js";
-import { updateCustomBlockedSites } from "./premium.js";
 
 self.addEventListener("install", (event) => {
   console.log("Service worker installed");

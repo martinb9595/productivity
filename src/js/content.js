@@ -1,4 +1,4 @@
-import { updateTimerDisplay } from './utils/timerUtils.js';
+import { updateTimerDisplay, startTimerUpdate } from './utils/timerUtils.js';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "updateTimer") {

@@ -40,10 +40,11 @@ chrome.runtime.onInstalled.addListener(() => {
     }
   );
   chrome.storage.local.get(
-    ["isInFocusMode"],
+    ["isInFocusMode", "focusEndTime"],
     function (result) {
       if (result.isInFocusMode) {
         isInFocusMode = result.isInFocusMode;
+        focusEndTime = result.focusEndTime || 0;
       }
     }
   );

@@ -79,14 +79,16 @@ chrome.storage.sync.get(['isInFocusMode'], function(result) {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === 'updateTimer') {
+    if (document.readyState === 'complete' && request.action === 'updateTimer') {
         updateTimerDisplay(request.timeRemaining);
     }
 });
 
 function updateTimerDisplay(timeRemaining) {
     const timerElement = document.getElementById('focus-timer');
-    updateTimerDisplay(timeRemaining, timerElement);
+    if (timerElement) {
+        timerElement.textContent = `Time remaining in focus mode: ${timeRemaining} seconds`;
+    }
 }
 // This script will be injected into web pages
 // It can be used to modify page content, such as replacing social media feeds

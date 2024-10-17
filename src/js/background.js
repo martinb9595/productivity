@@ -45,10 +45,12 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === "local") {
+  if (namespace === "sync") {
     if (changes.blockedSites) {
       blockedSites = changes.blockedSites.newValue;
     }
+  }
+  if (namespace === "local") {
     if (changes.isInFocusMode) {
       isInFocusMode = changes.isInFocusMode.newValue;
     }
@@ -79,7 +81,7 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     const url = new URL(details.url);
     if (blockedSites.some((site) => url.hostname.includes(site))) {
       chrome.tabs.update(details.tabId, {
-        url: chrome.runtime.getURL("blocked.html"),
+        url: chrome.runtime.getURL("src/html/blocked.html"),
       });
     }
   }

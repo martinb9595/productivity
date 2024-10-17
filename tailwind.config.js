@@ -21,6 +21,12 @@ module.exports = {
       fontFamily: {
         sans: ['Arial', 'sans-serif'],
       },
+      width: {
+        '96': '24rem',
+      },
+      height: {
+        '96': '24rem',
+      },
       spacing: {
         '10px': '10px',
         '15px': '15px',
